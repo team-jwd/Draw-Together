@@ -1,0 +1,32 @@
+{
+  "name": "boardroom",
+  "version": "1.0.0",
+  "description": "An application used for interactive whiteboarding and video chat",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --history-api-fallback"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wcbarnes/BoardRoom.git"
+  },
+  "author": "Will Barnes, JC Zhang, Daniel King",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wcbarnes/BoardRoom/issues"
+  },
+  "homepage": "https://github.com/wcbarnes/BoardRoom#readme",
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.16.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
+  }
+}
