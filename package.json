@@ -19,6 +19,8 @@
   "homepage": "https://github.com/wcbarnes/BoardRoom#readme",
   "dependencies": {
     "immutable": "^3.8.1",
+    "mongodb": "^2.2.10",
+    "mongoose": "^4.6.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   },
@@ -42,6 +44,7 @@
     "eslint-plugin-react": "^6.3.0",
     "jsdom": "^9.5.0",
     "mocha": "^3.1.0",
+    "mongoose": "^4.6.2",
     "react-addons-test-utils": "^15.3.2",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1"
