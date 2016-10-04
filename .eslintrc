@@ -5,8 +5,10 @@
     "react"
   ],
   "rules": {
-    "max-len": [1, 80, 2, {ignoreComments: true}],
-    "prop-types": [2],
+    "max-len": [1, 80, 2, {"ignoreComments": true}],
+    "react/prop-types": [2],
+    "react/prefer-stateless-function": [0],
+    "import/extensions": [0]
   },
   "env": {
     "browser": true
