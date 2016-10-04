@@ -1,15 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
-      <h1> test </h1>
+        <h1> test2 </h1>
+        <input type="text">hey</input>
       </div>
       );
   }
