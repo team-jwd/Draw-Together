@@ -22,22 +22,25 @@ module.exports = {
     publicPath: 'http://localhost:8080/',
   },
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loaders: ['babel-loader', 'eslint-loader'],
-        // query: {
-        //   presets: ['react', 'es2015', 'stage-0'],
-        // },
-      },
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-      }
-    ],
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      loaders: ['babel-loader', 'eslint-loader'],
+      // query: {
+      //   presets: ['react', 'es2015', 'stage-0'],
+      // },
+    },
+    {
+      test: /\.js$/,
+      loader: 'eslint-loader',
+    }],
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-  }
+  },
+  externals: {
+    cheerio: 'window',
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+  },
 };
