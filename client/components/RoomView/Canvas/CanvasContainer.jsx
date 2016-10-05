@@ -10,6 +10,9 @@ export default class CanvasContainer extends React.Component {
       lineWidth: '5',
       drawType: 'write',
     };
+    this.strokeChanged = this.strokeChanged.bind(this);
+    this.widthChanged = this.widthChanged.bind(this);
+    this.drawTypeChanged = this.drawTypeChanged.bind(this);
   }
 
   strokeChanged(e) {
@@ -25,7 +28,6 @@ export default class CanvasContainer extends React.Component {
   }
 
   drawTypeChanged(e) {
-    console.log(this.state);
     this.setState({
       drawType: e.target.value,
     });
@@ -40,9 +42,9 @@ export default class CanvasContainer extends React.Component {
           drawType={this.state.drawType}
         />
         <CanvasControls
-          strokeChanged={this.strokeChanged.bind(this)}
-          widthChanged={this.widthChanged.bind(this)}
-          drawTypeChanged={this.drawTypeChanged.bind(this)}
+          strokeChanged={this.strokeChanged}
+          widthChanged={this.widthChanged}
+          drawTypeChanged={this.drawTypeChanged}
         />
       </div>
     );
