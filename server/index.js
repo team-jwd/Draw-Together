@@ -1,26 +1,22 @@
-const mongoose = require('mongoose');
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const User = require('./models/user-model');
 
-mongoose.connect('mongodb://localhost/test');
+const app = express();
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('mongoose connected to server');
+const options = {
+  key: fs.readFileSync(path.join(`${__dirname}/config/server.key`), 'utf-8'),
+  cert: fs.readFileSync(path.join(`${__dirname}/config/server.crt`), 'utf-8'),
+  passphrase: 'boardroom',
+};
+
+const server = https.createServer(options, app);
+
+server.listen(3000, () => {
+  console.log('listnen on 3k');
 });
 
-const userSchema = mongoose.Schema({
-  username: String,
-  password: String,
-});
-
-const User = mongoose.model('Kitten', userSchema);
-
-const jc = new User({
-  username: 'Jc',
-  password: 'boardroom',
-});
-
-jc.save(function (err, jc) {
-  if (err) console.log('error saving')
-  console.log(jc);
+app.get('/', (req, res) => {
 });
