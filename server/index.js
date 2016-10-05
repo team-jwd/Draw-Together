@@ -2,6 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const User = require('./models/user-model');
 
 const app = express();
 
@@ -15,4 +16,7 @@ const server = https.createServer(options, app);
 
 server.listen(3000, () => {
   console.log('listnen on 3k');
+});
+
+app.get('/', (req, res) => {
 });

@@ -20,6 +20,8 @@
   "dependencies": {
     "express": "^4.14.0",
     "immutable": "^3.8.1",
+    "mongodb": "^2.2.10",
+    "mongoose": "^4.6.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "socket.io": "^1.4.8"
@@ -46,7 +48,9 @@
     "jsdom": "^9.5.0",
     "md5": "^2.2.1",
     "mocha": "^3.1.0",
+    "mongoose": "^4.6.2",
     "react-addons-test-utils": "^15.3.2",
+    "supertest": "^2.0.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1"
   }
