@@ -18,5 +18,7 @@ server.listen(3000, () => {
   console.log('listnen on 3k');
 });
 
-app.get('/', (req, res) => {
+app.get('/:query', (req, res) => {
+  const query = req.params.query;
+  res.send(query);
 });

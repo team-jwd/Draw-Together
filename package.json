@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
-    "test": "mocha -w test/helpers/* test/*-spec/*.spec.js --watch-extensions jsx"
+    "test": "mocha -w test/helpers/* test/*-spec/*.spec.js --colors --watch-extensions jsx --debug-brk"
   },
   "repository": {
     "type": "git",
