@@ -1,5 +1,8 @@
 import React from 'react';
 
+import store from '../../store';
+import actions from '../../actions';
+
 import LoginButton from './LoginButton.jsx';
 import SignupButton from './SignupButton.jsx';
 import LoginForm from './LoginForm.jsx';
@@ -16,6 +19,19 @@ export default class LoginView extends React.Component {
 
   toLandingView() {
     this.props.history.push('/dashboard');
+  }
+
+  handleLoginFormSubmit(username, password) {
+    store.getState();
+    // Need to get user's first name and last name from database
+    store.dispatch(actions.login(username, 'jimmy', 'lee'));
+    this.toLandingView();
+  }
+
+  handleSignupFormSubmit(username, password, firstName, lastName) {
+    // Same, need to get user's firstname and last name from database
+    store.dispatch(actions.login(username, firstName, lastName));
+    this.toLandingView();
   }
 
   showForm(formName) {
@@ -37,11 +53,11 @@ export default class LoginView extends React.Component {
           onClick={this.showForm.bind(this, 'login')}
         />
         <SignupForm
-          onSubmit={this.toLandingView.bind(this)}
+          onSubmit={this.handleSignupFormSubmit.bind(this)}
           display={this.state.signupFormVisible ? 'block' : 'none'}
         />
         <LoginForm
-          onSubmit={this.toLandingView.bind(this, this.props.history)}
+          onSubmit={this.handleLoginFormSubmit.bind(this)}
           display={this.state.loginFormVisible ? 'block' : 'none'}
         />
       </div>
