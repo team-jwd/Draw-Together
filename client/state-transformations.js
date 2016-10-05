@@ -10,10 +10,8 @@ export function logout(state) {
   return state.delete('userData');
 }
 
-export function joinRoom(state, roomName) {
-  return state.set('room', fromJS({
-    name: roomName,
-  }));
+export function joinRoom(state, name) {
+  return state.set('room', fromJS({name}));
 }
 
 export function leaveRoom(state) {
@@ -34,6 +32,6 @@ export function userJoin(roomState, username) {
 
 export function userLeave(roomState, username) {
   return roomState.update('otherUsers', otherUsers => {
-    return otherUsers.skipWhile(otherUser => otherUser === username);
+    return otherUsers.filter(otherUser => otherUser !== username);
   });
 }

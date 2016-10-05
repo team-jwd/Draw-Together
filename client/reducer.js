@@ -11,19 +11,35 @@ export default function reducer(state = INITIAL_STATE, action) {
     case 'LOGIN':
       const { username, firstName, lastName} = action;
       return login(state, username, firstName, lastName);
+
     case 'LOGOUT':
       return logout(state);
+
     case 'JOIN_ROOM':
-      
-      return joinRoom
+      const { name } = action;
+      return joinRoom(state, name);
+
     case 'LEAVE_ROOM':
-      return
+      return leaveRoom(state);
+
     case 'ADD_MESSAGE':
-      return
+      const { username: username_, text } = action;
+      return state.update('room',
+        roomState => addMessage(roomState, username_, text)
+      );
+
     case 'USER_JOIN':
-      return
+      const { username: username__ } = action;
+      return state.update('room',
+        roomState => userJoin(roomState, username__)
+      );
+
     case 'USER_LEAVE':
-      return
+      const { username: username___ } = action;
+      return state.update('room',
+        roomState => userLeave(roomState, username___)
+      );
+
     default:
       return state;
   }

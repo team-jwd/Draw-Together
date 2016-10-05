@@ -171,11 +171,11 @@ describe('userLeave', () => {
       otherUsers: ['jimmy', 'sandra']
     });
 
-    const newState = userLeave(roomState, 'jimmy');
+    const newState = userLeave(roomState, 'sandra');
 
     expect(newState).to.equal(fromJS({
       name: 'myRoom',
-      otherUsers: ['sandra']
+      otherUsers: ['jimmy']
     }));
   });
 

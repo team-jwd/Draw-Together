@@ -72,5 +72,32 @@ describe('reducer', () => {
         ]
       }
     }))
+
+    actionList = [
+      actions.login('stevied', 'steven', 'dada'),
+      actions.joinRoom('myRoom'),
+      actions.addMessage('sally', 'Hello'),
+      actions.addMessage('sally', 'how are you?'),
+      actions.userJoin('sally'),
+      actions.userJoin('jimmy'),
+      actions.userJoin('stevied'),
+      actions.userLeave('jimmy'),
+    ]
+    console.log(actions.userLeave('jimmy'));
+    expect(actionList.reduce(reducer, INITIAL_STATE)).to.equal(fromJS({
+      userData: {
+        username: 'stevied',
+        firstName: 'steven',
+        lastName: 'dada'
+      },
+      room: {
+        name: 'myRoom',
+        messages: [
+          {username: 'sally', text: 'Hello'},
+          {username: 'sally', text: 'how are you?'}
+        ],
+        otherUsers: ['sally', 'stevied']
+      }
+    }));
   });
 });
