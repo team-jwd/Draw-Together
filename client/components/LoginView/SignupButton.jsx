@@ -2,5 +2,5 @@ import React from 'react';
 
 export default props =>
   <div>
-    <button>Sign Up</button>
+    <button onClick={props.onClick}>Sign Up</button>
   </div>;
