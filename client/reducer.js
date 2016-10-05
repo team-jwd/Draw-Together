@@ -1,15 +1,14 @@
-import { fromJS } from 'immutable';
-
 import {
   INITIAL_STATE, login, logout,
   joinRoom, leaveRoom, addMessage,
-  userJoin, userLeave
+  userJoin, userLeave,
 } from './state-transformations';
 
 export default function reducer(state = INITIAL_STATE, action) {
+  /* eslint no-case-declarations: 0 */
   switch (action.type) {
     case 'LOGIN':
-      const { username, firstName, lastName} = action;
+      const { username, firstName, lastName } = action;
       return login(state, username, firstName, lastName);
 
     case 'LOGOUT':
