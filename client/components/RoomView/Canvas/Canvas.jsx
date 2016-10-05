@@ -64,7 +64,7 @@ export default class Canvas extends React.Component {
   }
 
   erase(x, y) {
-    this.state.ctx.clearRect(x-8, y-8, 16, 16);
+    this.state.ctx.clearRect(x - 8, y - 8, 16, 16);
   }
 
   endDraw() {
