@@ -27,6 +27,19 @@ export default class Canvas extends React.Component {
     const rect = this.state.canvas.getBoundingClientRect();
     const prevX = e.pageX - rect.left - document.body.scrollLeft;
     const prevY = e.pageY - rect.top - document.body.scrollTop;
+    if (this.props.drawType === 'erase') {
+      this.state.ctx.strokeStyle = 'white';
+      this.state.ctx.beginPath();
+      this.state.ctx.moveTo(prevX, prevY);
+      this.state.ctx.lineTo(prevX, prevY);
+      this.state.ctx.stroke();
+    } else {
+      this.state.ctx.strokeStyle = this.props.strokeStyle;
+      this.state.ctx.beginPath();
+      this.state.ctx.moveTo(prevX, prevY);
+      this.state.ctx.lineTo(prevX, prevY);
+      this.state.ctx.stroke();
+    }
     this.setState({
       rect,
       prevX,
@@ -40,7 +53,7 @@ export default class Canvas extends React.Component {
       const x = e.pageX - this.state.rect.left - document.body.scrollLeft;
       const y = e.pageY - this.state.rect.top - document.body.scrollTop;
       if (this.props.drawType === 'erase') {
-        this.erase(x, y);
+        this.erase(this.state.prevX, this.state.prevY, x, y);
       } else {
         this.drawOnCanvas(this.state.prevX, this.state.prevY, x, y);
       }
@@ -63,8 +76,15 @@ export default class Canvas extends React.Component {
     ctx.stroke();
   }
 
-  erase(x, y) {
-    this.state.ctx.clearRect(x - 8, y - 8, 16, 16);
+  erase(pX, pY, cX, cY) {
+    const ctx = this.state.ctx;
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = this.props.lineWidth;
+    ctx.beginPath();
+    ctx.moveTo(pX, pY);
+    ctx.lineTo(cX, cY);
+    ctx.stroke();
+    // this.state.ctx.clearRect(x - (this.props.lineWidth), y - (this.props.lineWidth), this.props.lineWidth, this.props.lineWidth);
   }
 
   endDraw() {
