@@ -4,6 +4,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const { createSignalingChannel } = require('./signaling.js');
+
 
 const config = require('./config/config.js');
 
@@ -33,10 +35,14 @@ const server = https.createServer(options, app);
 
 const io = require('socket.io')(server);
 
+
 app.use((req, res, next) => {
   req.locals = {};
   next();
 });
+
+createSignalingChannel(io);
+
 
 app.post('/signup',
   userController.createUser,
@@ -64,7 +70,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => {
-  console.log('listnen on 3k');
+  console.log('listening on 3k');
 });
 
 app.use(express.static(path.join(`${__dirname}/..`)));
