@@ -36,7 +36,7 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-# openssl cert and key for https
+# keys, certs, and jwt secret
 server/config
 
 # vscode debugger files
