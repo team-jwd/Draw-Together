@@ -6,13 +6,14 @@ export default class ChatContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [],
+      messages: ['hey'],
     };
+    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
   handleMessageSubmit(message) {
     const { messages } = this.state;
-    messages.unshift(message);
+    messages.push(message);
     this.setState({ messages });
   }
 
