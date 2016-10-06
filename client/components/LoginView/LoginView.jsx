@@ -1,5 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
+import Axios from 'axios';
 
 import store from '../../store';
 import actions from '../../actions';
@@ -26,23 +27,42 @@ export default class LoginView extends React.Component {
   }
 
   handleLoginFormSubmit(username, password) {
-    // Need to get user's first name and last name from database
-    socket.emit('login', { username, password }, (conf) => {
-      if (conf) {
+    Axios.post('/login', {
+      username,
+      password,
+    }).then((response) => {
+      const token = response.data.token;
+      const { firstName, lastName } = response.data.user;
+      if (token) {
+        localStorage.setItem('token', token);
         store.getState();
-        store.dispatch(actions.login(username, 'jimmy', 'lee'));
+        store.dispatch(actions.login(username, firstName, lastName));
         this.toLandingView();
+      } else {
+        console.log('do something to tell them the username or password was wrong');
       }
+    }).catch((error) => {
+      console.log(error);
     });
   }
 
   handleSignupFormSubmit(username, password, firstName, lastName) {
-    // Same, need to get user's firstname and last name from database
-    socket.emit('signup', { username, password, firstName, lastName }, (conf) => {
-      if (conf) {
+    Axios.post('/signup', {
+      username,
+      password,
+      firstName,
+      lastName,
+    }).then((response) => {
+      const token = response.data.token;
+      if (token) {
+        localStorage.setItem('token', token);
         store.dispatch(actions.login(username, firstName, lastName));
         this.toLandingView();
+      } else {
+        console.log('tell the user that their username was already taken');
       }
+    }).catch((error) => {
+      console.log(error);
     });
   }
 
@@ -60,18 +80,18 @@ export default class LoginView extends React.Component {
         <h1>BoardRoom.</h1>
         <SignupButton
           onClick={this.showForm.bind(this, 'signup')}
-          />
+        />
         <LoginButton
           onClick={this.showForm.bind(this, 'login')}
-          />
+        />
         <SignupForm
           onSubmit={this.handleSignupFormSubmit.bind(this)}
           display={this.state.signupFormVisible ? 'block' : 'none'}
-          />
+        />
         <LoginForm
           onSubmit={this.handleLoginFormSubmit.bind(this)}
           display={this.state.loginFormVisible ? 'block' : 'none'}
-          />
+        />
       </div>
     );
   }

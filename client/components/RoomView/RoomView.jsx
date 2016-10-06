@@ -17,7 +17,7 @@ export default class RoomView extends React.Component {
         <CanvasContainer />
         <ChatContainer />
         <VideoContainer />
-      </div>;
+      </div>
     );
   }
 }
