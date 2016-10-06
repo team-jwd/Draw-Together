@@ -35,6 +35,7 @@ export default class LoginView extends React.Component {
   }
 
   showForm(formName) {
+    console.log('hello');
     const loginFormVisibility = formName === 'login';
     this.setState({
       loginFormVisible: loginFormVisibility,
