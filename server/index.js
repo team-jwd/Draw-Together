@@ -2,7 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const User = require('./models/user-model');
+const { createSignalingChannel } = require('./signaling.js');
 
 
 const app = express();
@@ -17,6 +17,7 @@ const server = https.createServer(options, app);
 
 const io = require('socket.io')(server);
 
+createSignalingChannel(io);
 
 io.on('connection', (socket) => {
   console.log('a user connected');
@@ -37,7 +38,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => {
-  console.log('listnen on 3k');
+  console.log('listening on 3k');
 });
 
 app.use(express.static(path.join(`${__dirname}/..`)));
