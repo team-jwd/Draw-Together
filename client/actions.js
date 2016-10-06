@@ -11,6 +11,10 @@ export default {
     return { type: 'JOIN_ROOM', name };
   },
 
+  isInitiator(bool) {
+    return { type: 'IS_INITIATOR' };
+  },
+
   leaveRoom() {
     return { type: 'LEAVE_ROOM' };
   },

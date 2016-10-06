@@ -4,14 +4,31 @@ import CreateRoomForm from './CreateRoomForm.jsx';
 import JoinRoomButton from './JoinRoomButton.jsx';
 import JoinRoomForm from './JoinRoomForm.jsx';
 
+import socket from '../../socket';
+import RTC from '../../rtc-controller';
+
 export default class LandingView extends Component {
   constructor(props) {
     super(props);
     this.state = { test: true };
   }
+
   onClick() {
     this.state = { test: false };
   }
+
+  joinRoom(roomName, password) {
+    socket.emit('join_room', roomName, response => {
+      if (response === 'full') {
+        // Choose another name
+      } else {
+        if (response === 2) RTC.isInitiator = true;
+        store.dispatch(actions.joinRoom(roomName));
+        this.props.history.push('/room')
+      }
+    });
+  }
+
   render() {
     return (
       <div>
@@ -20,7 +37,6 @@ export default class LandingView extends Component {
         <CreateRoomForm />
         <JoinRoomButton />
         <JoinRoomForm />
-
       </div>
     );
   }
