@@ -40,8 +40,6 @@ server.listen(3000, () => {
   console.log('listnen on 3k');
 });
 
-app.use(express.static(path.join(`${__dirname}/..`)));
-
 app.get('/:query', (req, res) => {
   const query = req.params.query;
   res.send(query);
