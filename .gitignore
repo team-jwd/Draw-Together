@@ -41,3 +41,7 @@ server/config
 
 # vscode debugger files
 .vscode
+
+# webpack bundle
+dist
+

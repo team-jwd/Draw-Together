@@ -25,8 +25,8 @@ export default class Canvas extends React.Component {
 
   startDraw(e) {
     const rect = this.state.canvas.getBoundingClientRect();
-    const prevX = e.pageX - rect.left;
-    const prevY = e.pageY - rect.top;
+    const prevX = e.pageX - rect.left - document.body.scrollLeft;
+    const prevY = e.pageY - rect.top - document.body.scrollTop;
     this.setState({
       rect,
       prevX,
@@ -37,8 +37,8 @@ export default class Canvas extends React.Component {
 
   newDraw(e) {
     if (this.state.mouseDown) {
-      const x = e.pageX - this.state.rect.left;
-      const y = e.pageY - this.state.rect.top;
+      const x = e.pageX - this.state.rect.left - document.body.scrollLeft;
+      const y = e.pageY - this.state.rect.top - document.body.scrollTop;
       if (this.props.drawType === 'erase') {
         this.erase(x, y);
       } else {

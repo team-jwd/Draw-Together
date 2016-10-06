@@ -19,7 +19,7 @@ module.exports = {
   output: {
     path: path.resolve(buildDirectory),
     filename: 'bundle.js',
-    publicPath: 'http://localhost:8080/',
+    publicPath: 'http://localhost:8080/dist',
   },
   module: {
     loaders: [{
