@@ -6,6 +6,8 @@ import JoinRoomForm from './JoinRoomForm.jsx';
 
 import socket from '../../socket';
 import RTC from '../../rtc-controller';
+import store from './../../store.js';
+import actions from './../../actions.js';
 
 export default class LandingView extends Component {
   constructor(props) {
@@ -18,13 +20,19 @@ export default class LandingView extends Component {
   }
 
   joinRoom(roomName, password) {
-    socket.emit('join_room', roomName, response => {
+    // console.log('called joinRoom()');
+    // socket.on('joined_room', (roomName) => {
+    //   console.log('joined room', roomName);
+    // });
+
+    socket.emit('join_room', roomName, (response) => {
+      console.log('received response from server, response:', response);
       if (response === 'full') {
         // Choose another name
       } else {
         if (response === 2) RTC.isInitiator = true;
         store.dispatch(actions.joinRoom(roomName));
-        this.props.history.push('/room')
+        this.props.history.push('/room');
       }
     });
   }
@@ -36,7 +44,7 @@ export default class LandingView extends Component {
         <CreateRoomButton update={this.onClick.bind(this)} />
         <CreateRoomForm />
         <JoinRoomButton />
-        <JoinRoomForm />
+        <JoinRoomForm onSubmit={this.joinRoom.bind(this)} />
       </div>
     );
   }

@@ -1,7 +1,15 @@
 import React from 'react';
 
-export default () =>
+export default props =>
   <div id="joinRoomForm">
-    <p>Room Name </p>
-    <input type="text" name="roomName" />
+    <p>Join Room Form</p>
+   
+    <button onClick={() => {
+      console.log('Clicked!');
+      console.log(props.onSubmit); 
+      props.onSubmit('test'); 
+    }}> 
+    
+    Submit! 
+    </button>
   </div>;
