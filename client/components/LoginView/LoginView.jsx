@@ -22,7 +22,6 @@ export default class LoginView extends React.Component {
   }
 
   handleLoginFormSubmit(username, password) {
-    store.getState();
     // Need to get user's first name and last name from database
     store.dispatch(actions.login(username, 'jimmy', 'lee'));
     this.toLandingView();
