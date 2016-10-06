@@ -39,4 +39,5 @@ jspm_packages
 # openssl cert and key for https
 server/config
 
-
+# vscode debugger files
+.vscode
