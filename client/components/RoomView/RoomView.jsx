@@ -1,6 +1,11 @@
 import React from 'react';
+import ChatContainer from './Chat/ChatContainer';
+import CanvasContainer from './Canvas/CanvasContainer';
+import VideoContainer from './Video/VideoContainer';
 
 export default () =>
   <div>
-    <p>This is the Room View</p>
+    <CanvasContainer />
+    <ChatContainer />
+    <VideoContainer />
   </div>;
