@@ -62,7 +62,7 @@ export default class LoginView extends React.Component {
         console.log('tell the user that their username was already taken');
       }
     }).catch((error) => {
-      console.log(error);
+      throw error;
     });
   }
 

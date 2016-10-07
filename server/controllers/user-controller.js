@@ -39,14 +39,12 @@ const userController = {
           if (err) throw err;
           if (bool) {
             req.locals.user = {
-              username: req.body.username,
-              firstName: req.body.firstName,
-              lastName: req.body.lastName,
+              username: user.username,
+              firstName: user.firstName,
+              lastName: user.lastName,
             };
-            console.log('passwords match');
             next();
           } else {
-            console.log('password incorrect');
             res.send('incorrect password');
           }
         });
