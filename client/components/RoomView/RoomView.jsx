@@ -41,6 +41,7 @@ class RoomView extends React.Component {
 
     if (RTC.isInitiator) {
       this.initiateRTC(peerConnection, roomName);
+      console.log('You are the initiator!');
     } else {
       this.listenForRTC(peerConnection, roomName);
     }
@@ -49,6 +50,7 @@ class RoomView extends React.Component {
   onChatMessageSubmit(text) {
     const username = store.getState().getIn(['userData', 'username']);
     store.dispatch(actions.addMessage(username, text));
+    this.sendMessage(username, text);
   }
 
   initiateRTC(peerConnection, roomName) {
@@ -57,10 +59,14 @@ class RoomView extends React.Component {
 
     sendChannel.onopen = () => {
       sendChannel.onmessage = (message) => {
-        console.log(message);
+
+        // Do something when we receive a message
+        const msgObj = JSON.parse(message.data);
+        store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
       };
 
       this.setState({ channel: sendChannel });
+      console.log('sendchannel state set');
     };
 
     this.setState({ peerConnection });
@@ -73,31 +79,37 @@ class RoomView extends React.Component {
     peerConnection.ondatachannel = (event) => {
       const dataChannel = event.channel;
       dataChannel.onmessage = (message) => {
-        console.log(message);
+
+        // Do something when we receive a message
+        const msgObj = JSON.parse(message.data);
+        store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
       };
 
       this.setState({ channel: dataChannel });
+      console.log('datachannel state set');
     };
 
     this.setState({ peerConnection });
   }
 
-
-  sendMessage(message) {
+  sendMessage(username, message) {
     // Only strings can be sent through the data channel
-    this.state.channel.send(JSON.stringify(message));
+    const msgObj = { type: 'message', username, message };
+    this.state.channel.send(JSON.stringify(msgObj));
   }
 
   render() {
     return (
       <div>
+        <p>You are in room {store.getState().get('room').get('name')}</p>
         <CanvasContainer />
+
         <ChatContainer
           messages={this.props.messages}
           onChatMessageSubmit={this.onChatMessageSubmit}
         />
+
         <VideoContainer />
-        <button onClick={() => this.sendMessage('hello')}>Click here!</button>
       </div>
     );
   }

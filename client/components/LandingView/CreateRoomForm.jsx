@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default () =>
-  <div id="createRoomForm">
-    New Room Name:
-    <input type="text" name="newRoomName" />
+export default props =>
+  <div>
+    <button type="text" onClick={props.createRoom}> Create Room </button>
   </div>;
