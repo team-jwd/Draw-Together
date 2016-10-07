@@ -15,20 +15,14 @@ export default class LandingView extends Component {
     this.state = { test: true };
   }
 
-  onClick() {
-    this.state = { test: false };
-  }
-
-  joinRoom(roomName, password) {
-    // console.log('called joinRoom()');
-    // socket.on('joined_room', (roomName) => {
-    //   console.log('joined room', roomName);
-    // });
-
+  joinRoom() {
+    const roomName = prompt('Enter Room Name:');
     socket.emit('join_room', roomName, (response) => {
       console.log('received response from server, response:', response);
       if (response === 'full') {
-        // Choose another name
+        alert('Room full, please try again');
+      } else if (response === 'empty') {
+        alert('This room does not exist');
       } else {
         if (response === 2) RTC.isInitiator = true;
         store.dispatch(actions.joinRoom(roomName));
@@ -37,13 +31,27 @@ export default class LandingView extends Component {
     });
   }
 
+  createRoom() {
+    const roomName = prompt('Enter Room Name:');
+    socket.emit('create_room', roomName, (respond) => {
+      console.log(respond);
+      if (respond === 'exists') {
+        alert('Please choose another name');
+      } else {
+        store.dispatch(actions.joinRoom(roomName));
+        this.props.history.push('/room');
+        console.log('joining room:', roomName);
+      }
+    });
+  }
+
   render() {
     return (
       <div>
         <p>Landing View Page</p>
-        <CreateRoomButton update={this.onClick.bind(this)} />
-        <CreateRoomForm />
-        <JoinRoomButton />
+        <CreateRoomButton />
+        <CreateRoomForm createRoom={this.createRoom.bind(this)} />
+        <JoinRoomButton joinRoom={this.joinRoom.bind(this)} />
         <JoinRoomForm onSubmit={this.joinRoom.bind(this)} />
       </div>
     );

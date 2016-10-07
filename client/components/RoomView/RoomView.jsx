@@ -12,7 +12,8 @@ export default class RoomView extends React.Component {
     super(props);
     this.state = {
       channel: null,
-    }
+      messages: ['default'],
+    };
   }
 
   componentDidMount() {
@@ -27,8 +28,11 @@ export default class RoomView extends React.Component {
       sendChannel.onopen = () => {
         console.log('data channel open');
         sendChannel.onmessage = (message) => {
-          console.log(message);
-        }
+          console.log(message.data);
+          const temp = this.state;
+          temp.messages.push(message);
+          this.setState(temp);
+        };
         this.setState({ channel: sendChannel });
       };
     } else {
@@ -37,22 +41,26 @@ export default class RoomView extends React.Component {
         console.log('data channel opened, event:', event);
         const dataChannel = event.channel;
         dataChannel.onmessage = (message) => {
-          console.log(message);
+          console.log(message.data);
+          const temp = this.state;
+          temp.messages.push(message);
+          this.setState(temp);
         };
         this.setState({ channel: dataChannel });
       };
     }
   }
 
-  sendMessage(message) {
-    this.state.channel.send(message);
-  }
-
   render() {
     return (
       <div>
+        <p>You are in room {store.getState().get('room').get('name')}</p>
         <CanvasContainer />
-        <ChatContainer />
+
+        <ChatContainer
+          sendMessage={this.sendMessage.bind(this)}
+        />
+
         <VideoContainer />
         <button onClick={() => this.sendMessage('hello')}>Click here!</button>
       </div>
