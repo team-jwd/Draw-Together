@@ -5,23 +5,20 @@ import ChatWindow from './ChatWindow.jsx';
 export default class ChatContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      messages: ['hey'],
-    };
-    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+    //this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
-  
-  handleMessageSubmit(message) {
-    const { messages } = this.state;
-    messages.push(message);
-    this.setState({ messages });
-  }
+
+  // handleMessageSubmit(message) {
+  //   const { messages } = this.state;
+  //   messages.push(message);
+  //   this.setState({ messages });
+  // }
 
 
   render() {
     return (
       <div>
-        <ChatWindow messages={this.state.messages} />
+        <ChatWindow messages={this.props.messages || []} />
         <ChatForm
           onChatMessageSubmit={this.props.onChatMessageSubmit}
         />

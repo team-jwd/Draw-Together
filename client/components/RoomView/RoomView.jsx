@@ -12,6 +12,9 @@ import socket from '../../socket';
 class RoomView extends React.Component {
   constructor(props) {
     super(props);
+
+    this.onChatMessageSubmit = this.onChatMessageSubmit.bind(this);
+
     this.state = {
       peerConnection: null,
       channel: null,
@@ -72,7 +75,6 @@ class RoomView extends React.Component {
 
   onChatMessageSubmit(text) {
     const username = store.getState().getIn(['userData', 'username']);
-    console.log(username, text);
 
     store.dispatch(actions.addMessage(username, text));
     console.log(store.getState().getIn(['room', 'messages']));
@@ -84,7 +86,8 @@ class RoomView extends React.Component {
       <div>
         <CanvasContainer />
         <ChatContainer
-          onChatMessageSubmit={this.onChatMessageSubmit.bind(this)}
+          messages={this.props.messages}
+          onChatMessageSubmit={this.onChatMessageSubmit}
         />
         <VideoContainer />
         <button onClick={() => this.sendMessage('hello')}>Click here!</button>
