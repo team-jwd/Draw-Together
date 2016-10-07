@@ -9,4 +9,4 @@ export default (props) => {
       <p>{username}: {text}</p>
     </div>
   );
-}
+};

@@ -21,37 +21,53 @@ class RoomView extends React.Component {
     };
   }
 
+  componentWillMount() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      if (!store.getState().get('room')) {
+        this.props.history.push('/dashboard');
+      }
+    } else {
+      store.dispatch(actions.logout());
+      this.props.history.push('/');
+    }
+  }
 
   componentDidMount() {
-    console.log(this.props.messages);
-    const roomName = store.getState().get('room').get('name');
+    const roomName = this.props.roomName;
 
     const peerConnection = RTC.createConnection(socket, roomName);
     RTC.acceptRemoteICECandidates(socket, peerConnection);
 
-    RTC.isInitiator ?
-      this.initiateRTC(socket, peerConnection, roomName) :
-      this.listenForRTC(socket, peerConnection, roomName);
+    if (RTC.isInitiator) {
+      this.initiateRTC(peerConnection, roomName);
+    } else {
+      this.listenForRTC(peerConnection, roomName);
+    }
   }
 
+  onChatMessageSubmit(text) {
+    const username = store.getState().getIn(['userData', 'username']);
+    store.dispatch(actions.addMessage(username, text));
+  }
 
-  initiateRTC(socket, peerConnection, roomName) {
+  initiateRTC(peerConnection, roomName) {
     const sendChannel = RTC.createDataChannel(peerConnection);
     RTC.createOffer(socket, peerConnection, roomName);
 
     sendChannel.onopen = () => {
       sendChannel.onmessage = (message) => {
         console.log(message);
-      }
+      };
 
       this.setState({ channel: sendChannel });
     };
 
-    this.setState({ peerConnection: peerConnection });
+    this.setState({ peerConnection });
   }
 
 
-  listenForRTC(socket, peerConnection, roomName) {
+  listenForRTC(peerConnection, roomName) {
     RTC.listenForRemoteOffer(socket, peerConnection, roomName);
 
     peerConnection.ondatachannel = (event) => {
@@ -63,7 +79,7 @@ class RoomView extends React.Component {
       this.setState({ channel: dataChannel });
     };
 
-    this.setState({ peerConnection: peerConnection });
+    this.setState({ peerConnection });
   }
 
 
@@ -71,15 +87,6 @@ class RoomView extends React.Component {
     // Only strings can be sent through the data channel
     this.state.channel.send(JSON.stringify(message));
   }
-
-
-  onChatMessageSubmit(text) {
-    const username = store.getState().getIn(['userData', 'username']);
-
-    store.dispatch(actions.addMessage(username, text));
-    console.log(store.getState().getIn(['room', 'messages']));
-  }
-
 
   render() {
     return (
@@ -99,7 +106,8 @@ class RoomView extends React.Component {
 function mapStateToProps(state) {
   return {
     messages: state.getIn(['room', 'messages']),
-  }
+    roomName: state.getIn(['room', 'name']),
+  };
 }
 
 export default connect(mapStateToProps)(RoomView);
