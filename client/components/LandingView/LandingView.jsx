@@ -11,11 +11,6 @@ import store from './../../store.js';
 import actions from './../../actions.js';
 
 export default class LandingView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { test: true };
-  }
-
   componentWillMount() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -55,6 +50,7 @@ export default class LandingView extends Component {
 
   createRoom() {
     const roomName = prompt('Enter Room Name:');
+
     socket.emit('create_room', roomName, (respond) => {
       console.log(respond);
       if (respond === 'exists') {
