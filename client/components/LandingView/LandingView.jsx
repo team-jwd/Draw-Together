@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import jwtDecode from 'jwt-decode';
 import CreateRoomButton from './CreateRoomButton.jsx';
 import CreateRoomForm from './CreateRoomForm.jsx';
 import JoinRoomButton from './JoinRoomButton.jsx';
@@ -15,10 +16,31 @@ export default class LandingView extends Component {
     this.state = { test: true };
   }
 
+  componentWillMount() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userData = store.getState().get('userData');
+      if (store.getState().get('room')) {
+        store.dispatch(actions.leaveRoom());
+      }
+      if (!userData) {
+        const { username, firstName, lastName } = jwtDecode(token);
+        store.dispatch(actions.login(username, firstName, lastName));
+      }
+    } else {
+      store.dispatch(actions.logout());
+      this.props.history.push('/');
+    }
+  }
+
+  onClick() {
+    this.state = { test: false };
+  }
+
   joinRoom() {
     const roomName = prompt('Enter Room Name:');
+
     socket.emit('join_room', roomName, (response) => {
-      console.log('received response from server, response:', response);
       if (response === 'full') {
         alert('Room full, please try again');
       } else if (response === 'empty') {

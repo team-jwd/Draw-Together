@@ -1,54 +1,91 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ChatContainer from './Chat/ChatContainer';
 import CanvasContainer from './Canvas/CanvasContainer';
 import VideoContainer from './Video/VideoContainer';
 import RTC from './../../rtc-controller.js';
 
 import store from '../../store';
+import actions from '../../actions';
 import socket from '../../socket';
 
-export default class RoomView extends React.Component {
+class RoomView extends React.Component {
   constructor(props) {
     super(props);
+
+    this.onChatMessageSubmit = this.onChatMessageSubmit.bind(this);
+
     this.state = {
+      peerConnection: null,
       channel: null,
-      messages: ['default'],
     };
   }
 
+  componentWillMount() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      if (!store.getState().get('room')) {
+        this.props.history.push('/dashboard');
+      }
+    } else {
+      store.dispatch(actions.logout());
+      this.props.history.push('/');
+    }
+  }
+
   componentDidMount() {
-    const roomName = store.getState().get('room').get('name');
+    const roomName = this.props.roomName;
+
     const peerConnection = RTC.createConnection(socket, roomName);
     RTC.acceptRemoteICECandidates(socket, peerConnection);
 
-    if (RTC.isInitiator === true) {
-      console.log('You are the Initiator!');
-      const sendChannel = RTC.createDataChannel(peerConnection);
-      RTC.createOffer(socket, peerConnection, roomName);
-      sendChannel.onopen = () => {
-        console.log('data channel open');
-        sendChannel.onmessage = (message) => {
-          console.log(message.data);
-          const temp = this.state;
-          temp.messages.push(message);
-          this.setState(temp);
-        };
-        this.setState({ channel: sendChannel });
-      };
+    if (RTC.isInitiator) {
+      this.initiateRTC(peerConnection, roomName);
     } else {
-      RTC.listenForRemoteOffer(socket, peerConnection, roomName);
-      peerConnection.ondatachannel = (event) => {
-        console.log('data channel opened, event:', event);
-        const dataChannel = event.channel;
-        dataChannel.onmessage = (message) => {
-          console.log(message.data);
-          const temp = this.state;
-          temp.messages.push(message);
-          this.setState(temp);
-        };
-        this.setState({ channel: dataChannel });
-      };
+      this.listenForRTC(peerConnection, roomName);
     }
+  }
+
+  onChatMessageSubmit(text) {
+    const username = store.getState().getIn(['userData', 'username']);
+    store.dispatch(actions.addMessage(username, text));
+  }
+
+  initiateRTC(peerConnection, roomName) {
+    const sendChannel = RTC.createDataChannel(peerConnection);
+    RTC.createOffer(socket, peerConnection, roomName);
+
+    sendChannel.onopen = () => {
+      sendChannel.onmessage = (message) => {
+        console.log(message);
+      };
+
+      this.setState({ channel: sendChannel });
+    };
+
+    this.setState({ peerConnection });
+  }
+
+
+  listenForRTC(peerConnection, roomName) {
+    RTC.listenForRemoteOffer(socket, peerConnection, roomName);
+
+    peerConnection.ondatachannel = (event) => {
+      const dataChannel = event.channel;
+      dataChannel.onmessage = (message) => {
+        console.log(message);
+      };
+
+      this.setState({ channel: dataChannel });
+    };
+
+    this.setState({ peerConnection });
+  }
+
+
+  sendMessage(message) {
+    // Only strings can be sent through the data channel
+    this.state.channel.send(JSON.stringify(message));
   }
 
   render() {
@@ -58,7 +95,8 @@ export default class RoomView extends React.Component {
         <CanvasContainer />
 
         <ChatContainer
-          sendMessage={this.sendMessage.bind(this)}
+          messages={this.props.messages}
+          onChatMessageSubmit={this.onChatMessageSubmit}
         />
 
         <VideoContainer />
@@ -67,3 +105,12 @@ export default class RoomView extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    messages: state.getIn(['room', 'messages']),
+    roomName: state.getIn(['room', 'name']),
+  };
+}
+
+export default connect(mapStateToProps)(RoomView);
