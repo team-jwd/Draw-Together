@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import jwtDecode from 'jwt-decode';
 import CreateRoomButton from './CreateRoomButton.jsx';
 import CreateRoomForm from './CreateRoomForm.jsx';
 import JoinRoomButton from './JoinRoomButton.jsx';
@@ -13,6 +14,11 @@ export default class LandingView extends Component {
   constructor(props) {
     super(props);
     this.state = { test: true };
+  }
+
+  componentWillMount() {
+    const token = localStorage.getItem('token');
+    console.log(jwtDecode(token));
   }
 
   onClick() {
