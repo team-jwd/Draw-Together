@@ -67,10 +67,10 @@ export default class LandingView extends Component {
     return (
       <div>
         <p>Landing View Page</p>
-        <CreateRoomButton />
-        <CreateRoomForm createRoom={this.createRoom.bind(this)} />
+        <CreateRoomButton createRoom={this.createRoom.bind(this)} />
+        <CreateRoomForm />
         <JoinRoomButton joinRoom={this.joinRoom.bind(this)} />
-        <JoinRoomForm onSubmit={this.joinRoom.bind(this)} />
+        <JoinRoomForm />
       </div>
     );
   }
