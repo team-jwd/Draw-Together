@@ -10,7 +10,7 @@ export default class ChatContainer extends React.Component {
     };
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
-
+  
   handleMessageSubmit(message) {
     const { messages } = this.state;
     messages.push(message);
@@ -22,7 +22,9 @@ export default class ChatContainer extends React.Component {
     return (
       <div>
         <ChatWindow messages={this.state.messages} />
-        <ChatForm submit={this.handleMessageSubmit} />
+        <ChatForm
+          onChatMessageSubmit={this.props.onChatMessageSubmit}
+        />
       </div>
     );
   }

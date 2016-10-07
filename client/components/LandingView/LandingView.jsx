@@ -20,11 +20,6 @@ export default class LandingView extends Component {
   }
 
   joinRoom(roomName, password) {
-    // console.log('called joinRoom()');
-    // socket.on('joined_room', (roomName) => {
-    //   console.log('joined room', roomName);
-    // });
-
     socket.emit('join_room', roomName, (response) => {
       console.log('received response from server, response:', response);
       if (response === 'full') {

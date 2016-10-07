@@ -1,5 +1,3 @@
-
-
 export default {
   isInitiator: false,
 
@@ -42,13 +40,6 @@ export default {
   },
 
   createOffer(socket, peerConnection, roomName) {
-    // TODO: One client needs to create an offer,
-    // add it to their local session description,
-    // and send it to the other client. That client
-    // needs to add it to their remote session description,
-    // create an answer, set it to their local session description,
-    // and send it back to client 1, who will set it as
-    // their remote session description
     return new Promise((resolve, reject) => {
       peerConnection.createOffer(
         (sessionDescription) => {
@@ -91,6 +82,7 @@ export default {
   acceptRemoteAnswer(sessionDescription, peerConnection) {
     peerConnection.setRemoteDescription(sessionDescription);
   },
+
   createDataChannel(peerConnection) {
     try {
       const sendChannel = peerConnection.createDataChannel(
@@ -116,5 +108,4 @@ export default {
   //     //do stuff with message
   //   }
   // }
-
 };
