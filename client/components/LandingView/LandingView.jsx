@@ -10,6 +10,7 @@ import RTC from '../../rtc-controller';
 import store from './../../store.js';
 import actions from './../../actions.js';
 
+
 export default class LandingView extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +52,7 @@ export default class LandingView extends Component {
 
   render() {
     return (
-      <div>
+      <div className="landing-view">
         <p>Landing View Page</p>
         <CreateRoomButton update={this.onClick.bind(this)} />
         <CreateRoomForm />

@@ -90,7 +90,7 @@ class RoomView extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="room-view">
         <CanvasContainer />
         <ChatContainer
           messages={this.props.messages}
