@@ -2,7 +2,9 @@ import React from 'react';
 
 export default (props) => {
   function textInput() {
-    props.submit(document.getElementById('textSubmit').value);
+    const text = document.getElementById('textSubmit').value;
+    props.onChatMessageSubmit(text);
+    // props.submit(document.getElementById('textSubmit').value);
     document.getElementById('textSubmit').value = '';
   }
 
