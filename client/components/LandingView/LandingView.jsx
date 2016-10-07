@@ -18,7 +18,19 @@ export default class LandingView extends Component {
 
   componentWillMount() {
     const token = localStorage.getItem('token');
-    console.log(jwtDecode(token));
+    if (token) {
+      const userData = store.getState().get('userData');
+      if (store.getState().get('room')) {
+        store.dispatch(actions.leaveRoom());
+      }
+      if (!userData) {
+        const { username, firstName, lastName } = jwtDecode(token);
+        store.dispatch(actions.login(username, firstName, lastName));
+      }
+    } else {
+      store.dispatch(actions.logout());
+      this.props.history.push('/');
+    }
   }
 
   onClick() {
@@ -27,7 +39,6 @@ export default class LandingView extends Component {
 
   joinRoom(roomName, password) {
     socket.emit('join_room', roomName, (response) => {
-      console.log('received response from server, response:', response);
       if (response === 'full') {
         // Choose another name
       } else {

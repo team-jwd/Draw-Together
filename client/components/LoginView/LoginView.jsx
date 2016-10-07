@@ -1,6 +1,6 @@
 import React from 'react';
-import io from 'socket.io-client';
 import Axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 import store from '../../store';
 import actions from '../../actions';
@@ -10,9 +10,6 @@ import SignupButton from './SignupButton.jsx';
 import LoginForm from './LoginForm.jsx';
 import SignupForm from './SignupForm.jsx';
 
-const socket = io().connect('http://localhost');
-
-
 export default class LoginView extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +17,15 @@ export default class LoginView extends React.Component {
       signupFormVisible: false,
       loginFormVisible: false,
     };
+  }
+
+  componentWillMount() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const { username, firstName, lastName } = jwtDecode(token);
+      store.dispatch(actions.login(username, firstName, lastName));
+      this.toLandingView();
+    }
   }
 
   toLandingView() {
@@ -35,7 +41,6 @@ export default class LoginView extends React.Component {
       const { firstName, lastName } = response.data.user;
       if (token) {
         localStorage.setItem('token', token);
-        store.getState();
         store.dispatch(actions.login(username, firstName, lastName));
         this.toLandingView();
       } else {
