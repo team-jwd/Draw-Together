@@ -81,23 +81,32 @@ export default class LoginView extends React.Component {
 
   render() {
     return (
-      <div className="LoginView">
-        <h1>BoardRoom.</h1>
-        <SignupButton
-          onClick={this.showForm.bind(this, 'signup')}
-        />
-        <LoginButton
-          onClick={this.showForm.bind(this, 'login')}
-        />
-        <SignupForm
-          onSubmit={this.handleSignupFormSubmit.bind(this)}
-          display={this.state.signupFormVisible ? 'block' : 'none'}
-        />
-        <LoginForm
-          onSubmit={this.handleLoginFormSubmit.bind(this)}
-          display={this.state.loginFormVisible ? 'block' : 'none'}
-        />
-      </div>
+      <main className="login-view">
+        <div id="banner">
+          <h1 id="title">BoardRoom</h1>
+          <h2>We are a platform for interactive whiteboarding and video chat. It is as easy as making an account and making a room. Give it a try!</h2>
+        </div>
+        <div id="user-interface">
+          <div id="ui-buttons">
+            <SignupButton
+              onClick={this.showForm.bind(this, 'signup')}
+            />
+            <LoginButton
+              onClick={this.showForm.bind(this, 'login')}
+            />
+          </div>
+          <div id="ui-forms">
+            <SignupForm
+              onSubmit={this.handleSignupFormSubmit.bind(this)}
+              display={this.state.signupFormVisible ? 'block' : 'none'}
+            />
+            <LoginForm
+              onSubmit={this.handleLoginFormSubmit.bind(this)}
+              display={this.state.loginFormVisible ? 'block' : 'none'}
+            />
+          </div>
+        </div>
+      </main>
     );
   }
 }

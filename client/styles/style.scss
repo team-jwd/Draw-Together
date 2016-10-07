@@ -1,0 +1,130 @@
+$font-stack: "Avant Garde",Avantgarde,"Century Gothic",CenturyGothic,AppleGothic,sans-serif;
+$background: #FFFEEB;
+$submit: #70D95D;
+$dark-submit: #145F2E;
+$light-blue: #54D0FF;
+$dark-blue: #2573a7;
+$gray: #292929;
+$light-gray: #ECF0F1;
+
+@import 'reset';
+
+* {
+  box-sizing: border-box;
+}
+
+body, input, button, textarea {
+  font-family: $font-stack;
+}
+
+body {
+  background-color: $background;
+  color: $gray;
+}
+
+.login-view {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  
+  #banner {
+    width: 100%;
+    text-align: center;
+    h1 {
+      margin-top: 5vw;
+      font-size: 10vw;
+      font-weight: 100;
+    }
+    h2 {
+      margin: 1vw auto 0;
+      font-size: 2vw;
+      font-weight: 100;
+      width: 80vw;
+    }
+  }
+
+  #user-interface {
+    width: 100%;
+    font-size: 3em;
+    text-align: center;
+    margin-top: 3vw;
+    #ui-buttons {
+      display: flex;
+      button {
+        font-size: 1.5vw;
+        width: 30vw;
+        height: 4vw;
+        outline: 0;
+        background-color: $dark-blue;
+        border: 1px solid $gray;
+        box-shadow: 0 0 4px $gray;
+        margin: 0 auto;
+      }
+    }
+    
+    .login-form {
+      background-color: $dark-blue;
+      width: 50vw;
+      margin: 3vw auto;
+      height: 10.3vw;
+      border: 1px solid $gray;
+      box-shadow: 0 0 4px $gray;
+      input, button {
+        text-align: center;
+        outline: 0;
+        background-color: $light-gray;
+        border: 1px solid $gray;
+        box-shadow: 0 0 1px $gray;
+        font-size: 1.4vw;
+        display: inline-block;
+        margin: 2% auto 0;
+        width: 30vw;
+        height: 2vw;
+      }
+      button {
+        background-color: $submit;
+      }
+    }
+
+    .signup-form {
+      background-color: $dark-blue;
+      width: 50vw;
+      margin: 3vw auto;
+      height: 16vw;
+      border: 1px solid $gray;
+      box-shadow: 0 0 4px $gray;
+      input, button {
+        text-align: center;
+        outline: 0;
+        background-color: $light-gray;
+        border: 1px solid $gray;
+        box-shadow: 0 0 1px $gray;
+        font-size: 1.4vw;
+        display: inline-block;
+        margin: 2% auto 0;
+        width: 30vw;
+        height: 2vw;
+      }
+      button {
+        background-color: $submit;
+      }
+    }
+  }
+}
+
+
+.room-view {
+  width: 100%;
+  height: 100%;
+  //background-color: greenyellow;
+}
+
+.landing-view {
+  width: 100%;
+  height: 100%;
+  //background-color: tomato;
+}

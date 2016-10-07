@@ -102,6 +102,7 @@ class RoomView extends React.Component {
     return (
       <div>
         <p>You are in room {store.getState().get('room').get('name')}</p>
+      <div className="room-view">
         <CanvasContainer />
 
         <ChatContainer
