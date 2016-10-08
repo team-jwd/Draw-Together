@@ -15,7 +15,6 @@ class RoomView extends React.Component {
     super(props);
 
     this.onChatMessageSubmit = this.onChatMessageSubmit.bind(this);
-    this.sendDrawData = this.sendDrawData.bind(this);
 
     this.state = {
       peerConnection: null,
@@ -81,19 +80,16 @@ class RoomView extends React.Component {
     this.setState({ peerConnection });
   }
 
+
   listenForRTC(peerConnection, roomName) {
     RTC.listenForRemoteOffer(socket, peerConnection, roomName);
 
     peerConnection.ondatachannel = (event) => {
       const dataChannel = event.channel;
       dataChannel.onmessage = (message) => {
-        // Check for type
-        if (message.data.type === 'message') {
-          const msgObj = JSON.parse(message.data);
-          store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
-        } else if (message.data.type === 'canvas') {
-          // do something!
-        }
+        // Do something when we receive a message
+        const msgObj = JSON.parse(message.data);
+        store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
       };
 
       this.setState({ channel: dataChannel });
@@ -108,11 +104,6 @@ class RoomView extends React.Component {
     const msgObj = { type: 'message', username, message };
     document.getElementById('textSubmit').value = '';
     this.state.channel.send(JSON.stringify(msgObj));
-  }
-
-  sendDrawData(drawData) {
-    const send = this.state.channel.send;
-    send(JSON.stringify(drawData));
   }
 
   render() {
