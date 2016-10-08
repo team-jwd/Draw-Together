@@ -2,6 +2,7 @@ import React from 'react';
 
 export default props =>
   <div id="canvas-controls">
+    <button type="text"> Clear Board </button>
     <p>Choose a color</p>
     <input type="color" id="color" onChange={props.strokeChanged} />
     <p>Line Size</p>
