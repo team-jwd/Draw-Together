@@ -5,7 +5,7 @@ export default (props) => {
   const messages = props.messages.map((message, i) =>
     <Message key={i} message={message} />);
   return (
-    <div className="ChatWindow">
+    <div id="chat-window">
       {messages}
     </div>
   );
