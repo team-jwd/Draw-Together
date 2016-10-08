@@ -8,6 +8,7 @@ import App from './components/app.jsx';
 import LoginView from './components/LoginView/LoginView.jsx';
 import LandingView from './components/LandingView/LandingView.jsx';
 import RoomView from './components/RoomView/RoomView.jsx';
+import NavigationContainer from './components/Navigation/NavigationContainer.jsx';
 
 import scss from './styles/style.scss';
 
