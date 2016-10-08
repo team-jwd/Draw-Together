@@ -4,8 +4,6 @@ export default (props) => {
   function textInput() {
     const text = document.getElementById('textSubmit').value;
     props.onChatMessageSubmit(text);
-    // props.submit(document.getElementById('textSubmit').value);
-    document.getElementById('textSubmit').value = '';
   }
 
   function submit(e) {
@@ -13,8 +11,8 @@ export default (props) => {
   }
 
   return (
-    <form onSubmit={submit}>
-      <input id="textSubmit" type="text" placeholder="Send a message" />
+    <form onSubmit={submit} id="chat-form">
+      <input id="textSubmit" type="text" placeholder="Send a message" autoComplete="off" />
       <button id="textButton" type="submit" onClick={textInput}>Send</button>
     </form>
   );

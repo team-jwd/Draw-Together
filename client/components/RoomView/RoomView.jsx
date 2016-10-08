@@ -50,6 +50,7 @@ class RoomView extends React.Component {
     }
   }
 
+
   componentDidMount() {
     const canvas = document.getElementById('canvass');
     const ctx = canvas.getContext('2d');
@@ -70,6 +71,11 @@ class RoomView extends React.Component {
     } else {
       this.listenForRTC(peerConnection, roomName);
     }
+    //document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
+  }
+
+  componentDidUpdate() {
+    document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
   }
 
   onChatMessageSubmit(text) {
@@ -127,6 +133,7 @@ class RoomView extends React.Component {
   sendMessage(username, message) {
     // Only strings can be sent through the data channel
     const msgObj = { type: 'message', username, message };
+    document.getElementById('textSubmit').value = '';
     this.state.channel.send(JSON.stringify(msgObj));
   }
 
@@ -238,6 +245,7 @@ class RoomView extends React.Component {
           <h2>You are in room {store.getState().get('room').get('name') }</h2>
         </div>
         <div id="room">
+
           <CanvasContainer
             strokeStyle={this.state.strokeStyle}
             lineWidth={this.state.lineWidth}
@@ -251,11 +259,14 @@ class RoomView extends React.Component {
             widthChanged={this.widthChanged}
             drawTypeChanged={this.drawTypeChanged}
           />
-          <ChatContainer
-            messages={this.props.messages}
-            onChatMessageSubmit={this.onChatMessageSubmit}
-          />
-          <VideoContainer />
+
+          <div id="chat-video">
+            <ChatContainer
+              messages={this.props.messages}
+              onChatMessageSubmit={this.onChatMessageSubmit}
+            />
+            <VideoContainer />
+          </div>
         </div>
       </main>
     );
