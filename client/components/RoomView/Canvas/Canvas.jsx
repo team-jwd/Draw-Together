@@ -52,6 +52,21 @@ export default class Canvas extends React.Component {
     if (this.state.mouseDown) {
       const x = e.pageX - this.state.rect.left - document.body.scrollLeft;
       const y = e.pageY - this.state.rect.top - document.body.scrollTop;
+
+      // send relevant state info to connected clients in the room
+      const drawState = {
+        type: 'canvas',
+        drawType: this.props.drawType,
+        prevX: this.state.prevX,
+        prevY: this.state.prevY,
+        x,
+        y,
+        strokeStyle: this.props.strokeStyle,
+        lineWidth: this.props.lineWidth,
+      };
+
+      this.props.sendDrawData(drawState);
+
       if (this.props.drawType === 'erase') {
         this.erase(this.state.prevX, this.state.prevY, x, y);
       } else {

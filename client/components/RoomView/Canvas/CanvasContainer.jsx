@@ -40,6 +40,7 @@ export default class CanvasContainer extends React.Component {
           strokeStyle={this.state.strokeStyle}
           lineWidth={this.state.lineWidth}
           drawType={this.state.drawType}
+          sendDrawData={this.sendDrawData}
         />
         <CanvasControls
           strokeChanged={this.strokeChanged}
