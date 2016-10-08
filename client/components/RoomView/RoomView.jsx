@@ -4,6 +4,7 @@ import ChatContainer from './Chat/ChatContainer';
 import CanvasContainer from './Canvas/CanvasContainer';
 import VideoContainer from './Video/VideoContainer';
 import RTC from './../../rtc-controller.js';
+import NavigationContainer from '../Navigation/NavigationContainer.jsx';
 
 import store from '../../store';
 import actions from '../../actions';
@@ -117,6 +118,7 @@ class RoomView extends React.Component {
   render() {
     return (
       <main className="room-view">
+        <NavigationContainer history={this.props.history} />
         <div id="room-banner">
           <h1>Boardroom</h1>
           <h2>You are in room {store.getState().get('room').get('name') }</h2>
