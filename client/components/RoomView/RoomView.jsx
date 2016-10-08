@@ -100,6 +100,7 @@ class RoomView extends React.Component {
     this.setState({ peerConnection });
   }
 
+
   listenForRTC(peerConnection, roomName) {
     RTC.listenForRemoteOffer(socket, peerConnection, roomName);
 
