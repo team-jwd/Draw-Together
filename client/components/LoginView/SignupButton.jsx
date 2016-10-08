@@ -1,6 +1,4 @@
 import React from 'react';
 
 export default props =>
-  <div>
-    <button onClick={props.onClick}>Sign Up</button>
-  </div>;
+  <button className="login-btn" onClick={props.onClick}>Sign Up</button>;

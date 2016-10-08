@@ -33,6 +33,10 @@ module.exports = {
     {
       test: /\.js$/,
       loader: 'eslint-loader',
+    },
+    {
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass'],
     }],
   },
   resolve: {
