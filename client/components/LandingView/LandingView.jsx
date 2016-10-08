@@ -4,7 +4,6 @@ import CreateRoomButton from './CreateRoomButton.jsx';
 import CreateRoomForm from './CreateRoomForm.jsx';
 import JoinRoomButton from './JoinRoomButton.jsx';
 import JoinRoomForm from './JoinRoomForm.jsx';
-import NavigationContainer from '../Navigation/NavigationContainer.jsx';
 
 import socket from '../../socket';
 import RTC from '../../rtc-controller';
@@ -68,7 +67,6 @@ export default class LandingView extends Component {
   render() {
     return (
       <div className="landing-view">
-        <NavigationContainer history={this.props.history} />
         <p>Landing View Page</p>
         <CreateRoomButton createRoom={this.createRoom.bind(this)} />
         <CreateRoomForm />
