@@ -29,12 +29,14 @@ export default class Canvas extends React.Component {
     const prevY = e.pageY - rect.top - document.body.scrollTop;
     if (this.props.drawType === 'erase') {
       this.state.ctx.strokeStyle = 'white';
+      this.state.ctx.lineWidth = this.props.lineWidth;
       this.state.ctx.beginPath();
       this.state.ctx.moveTo(prevX, prevY);
       this.state.ctx.lineTo(prevX, prevY);
       this.state.ctx.stroke();
     } else {
       this.state.ctx.strokeStyle = this.props.strokeStyle;
+      this.state.ctx.lineWidth = this.props.lineWidth;
       this.state.ctx.beginPath();
       this.state.ctx.moveTo(prevX, prevY);
       this.state.ctx.lineTo(prevX, prevY);
@@ -65,7 +67,7 @@ export default class Canvas extends React.Component {
         lineWidth: this.props.lineWidth,
       };
 
-      this.props.sendDrawData(drawState);
+      // this.props.sendDrawData(drawState);
 
       if (this.props.drawType === 'erase') {
         this.erase(this.state.prevX, this.state.prevY, x, y);
@@ -111,9 +113,8 @@ export default class Canvas extends React.Component {
   render() {
     return (
       <canvas
-        width="800px"
-        height="700px"
-        style={{ border: '1px solid black', cursor: 'crosshair' }}
+        width="2000px"
+        height="2000px"
         onMouseDown={this.startDraw.bind(this)}
         onMouseMove={this.newDraw.bind(this)}
         onMouseUp={this.endDraw.bind(this)}

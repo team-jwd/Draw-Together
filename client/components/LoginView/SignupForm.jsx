@@ -33,7 +33,7 @@ export default class LoginView extends React.Component {
 
   render() {
     return (
-      <div className="SignupForm" style={{ display: this.props.display }}>
+      <div className="signup-form" style={{ display: this.props.display }}>
         <input id="firstName" type="text" placeholder="First name" onChange={this.handleFirstNameChange} />
         <input id="lastName" type="text" placeholder="Last name" onChange={this.handleLastNameChange} />
         <input id="username" type="text" placeholder="username" onChange={this.handleUsernameChange} />

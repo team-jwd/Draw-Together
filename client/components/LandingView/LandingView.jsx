@@ -10,6 +10,7 @@ import RTC from '../../rtc-controller';
 import store from './../../store.js';
 import actions from './../../actions.js';
 
+
 export default class LandingView extends Component {
   componentWillMount() {
     const token = localStorage.getItem('token');
@@ -65,7 +66,7 @@ export default class LandingView extends Component {
 
   render() {
     return (
-      <div>
+      <div className="landing-view">
         <p>Landing View Page</p>
         <CreateRoomButton createRoom={this.createRoom.bind(this)} />
         <CreateRoomForm />

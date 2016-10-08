@@ -35,13 +35,14 @@ export default class CanvasContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <Canvas
-          strokeStyle={this.state.strokeStyle}
-          lineWidth={this.state.lineWidth}
-          drawType={this.state.drawType}
-          sendDrawData={this.sendDrawData}
-        />
+      <div id="canvas-container">
+        <div id="canvas">
+          <Canvas
+            strokeStyle={this.state.strokeStyle}
+            lineWidth={this.state.lineWidth}
+            drawType={this.state.drawType}
+          />
+        </div>
         <CanvasControls
           strokeChanged={this.strokeChanged}
           widthChanged={this.widthChanged}

@@ -60,7 +60,6 @@ class RoomView extends React.Component {
 
     sendChannel.onopen = () => {
       sendChannel.onmessage = (message) => {
-
         // Do something when we receive a message
         const msgObj = JSON.parse(message.data);
         store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
@@ -79,7 +78,6 @@ class RoomView extends React.Component {
     peerConnection.ondatachannel = (event) => {
       const dataChannel = event.channel;
       dataChannel.onmessage = (message) => {
-
         // Check for type
         if (message.data.type === 'message') {
           const msgObj = JSON.parse(message.data);
@@ -109,17 +107,20 @@ class RoomView extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>You are in room {store.getState().get('room').get('name')}</p>
-        <CanvasContainer sendDrawData={this.sendDrawData} />
-
-        <ChatContainer
-          messages={this.props.messages}
-          onChatMessageSubmit={this.onChatMessageSubmit}
-        />
-
-        <VideoContainer />
-      </div>
+      <main className="room-view">
+        <div id="room-banner">
+          <h1>Boardroom</h1>
+          <h2>You are in room {store.getState().get('room').get('name') }</h2>
+        </div>
+        <div id="room">
+          <CanvasContainer />
+          <ChatContainer
+            messages={this.props.messages}
+            onChatMessageSubmit={this.onChatMessageSubmit}
+          />
+          <VideoContainer />
+        </div>
+      </main>
     );
   }
 }
