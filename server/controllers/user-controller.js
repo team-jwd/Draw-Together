@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 
-const config = require('../config/config.js');
-
 const userController = {
   getAllUsers: (next) => {
     User.find({}, next);
@@ -63,4 +61,3 @@ const userController = {
 };
 
 module.exports = userController;
-
