@@ -124,10 +124,10 @@ class RoomView extends React.Component {
     if (msgObj.type === 'message') {
       store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
     } else if (msgObj.type === 'canvas') {
-      if (msgObj.drawType !== 'erase') {
-        this.drawOnCanvas(msgObj.prevX, msgObj.prevY, msgObj.x, msgObj.y, msgObj.strokeStyle, msgObj.lineWidth);
-      } else {
+      if (msgObj.drawType === 'erase') {
         this.erase(msgObj.prevX, msgObj.prevY, msgObj.x, msgObj.y, msgObj.lineWidth);
+      } else {
+        this.drawOnCanvas(msgObj.prevX, msgObj.prevY, msgObj.x, msgObj.y, msgObj.strokeStyle, msgObj.lineWidth);
       }
     }
   }
@@ -149,10 +149,23 @@ class RoomView extends React.Component {
     const prevY = e.pageY - rect.top - document.body.scrollTop;
     const ctx = this.state.ctx;
 
+    const drawState = {
+      type: 'canvas',
+      drawType: this.state.drawType,
+      prevX,
+      prevY,
+      x: prevX,
+      y: prevY,
+      strokeStyle: this.state.strokeStyle,
+      lineWidth: this.state.lineWidth,
+    };
+
+    if (this.state.channel) this.sendDrawData(drawState);
+
     if (this.props.drawType === 'erase') {
-      this.erase(prevX, prevY, prevX, prevY, ctx.lineWidth);
+      this.erase(prevX, prevY, prevX, prevY, this.state.lineWidth);
     } else {
-      this.drawOnCanvas(prevX, prevY, prevX, prevY, ctx.strokeStyle, ctx.lineWidth);
+      this.drawOnCanvas(prevX, prevY, prevX, prevY, this.state.strokeStyle, this.state.lineWidth);
     }
     this.setState({
       rect,
@@ -216,6 +229,8 @@ class RoomView extends React.Component {
   }
 
   endDraw() {
+    // const data = this.state.ctx.getImageData(0, 0, this.state.canvas.width, this.state.canvas.height);
+    // console.log(data);
     this.setState({
       mouseDown: false,
     });
