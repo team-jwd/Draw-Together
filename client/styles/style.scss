@@ -22,6 +22,14 @@ body {
   color: $gray;
 }
 
+#navigation-container {
+  #hamburger-button {
+    #hamburger-div {
+      background: transparent;
+    }
+  }
+}
+
 .login-view {
   display: -webkit-box;
   display: -moz-box;
