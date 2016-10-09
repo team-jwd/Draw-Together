@@ -10,8 +10,7 @@
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
     "test": "mocha -w */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js --watch-extensions jsx",
     "bundle-client:watch": "./node_modules/webpack/bin/webpack.js --watch",
-    "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js",
-    "postinstall": "webpack"
+    "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js"
   },
   "repository": {
     "type": "git",
