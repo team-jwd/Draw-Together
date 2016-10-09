@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "An application used for interactive whiteboarding and video chat",
   "main": "index.js",
+  "engines": {
+    "node": "6.4.0"
+  },
   "scripts": {
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
     "test": "mocha -w */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js --watch-extensions jsx",
