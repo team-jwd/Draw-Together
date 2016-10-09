@@ -10,7 +10,7 @@ const { createSignalingChannel } = require('./signaling.js');
 
 //const config = require('./config/config.js');
 
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 const userController = require('./controllers/user-controller');
 
@@ -71,8 +71,8 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('listening on 3k');
+server.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });
 
 app.use(express.static(path.join(`${__dirname}/..`)));
