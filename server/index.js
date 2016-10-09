@@ -8,14 +8,14 @@ const mongoose = require('mongoose');
 const { createSignalingChannel } = require('./signaling.js');
 
 
-const config = require('./config/config.js');
+//const config = require('./config/config.js');
 
 const port = process.env.PORT || 8080;
 
 const userController = require('./controllers/user-controller');
 
 const app = express();
-mongoose.connect(config.database);
+mongoose.connect(process.env.DATABASE_LOCATION || require('./config/config.js').database));
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
