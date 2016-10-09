@@ -15,7 +15,7 @@ const port = process.env.PORT || 8080;
 const userController = require('./controllers/user-controller');
 
 const app = express();
-console.log(process.env.DATABASE_LOCATION);
+console.log("database location:", process.env.DATABASE_LOCATION);
 mongoose.connect(process.env.DATABASE_LOCATION);
 const db = mongoose.connection;
 
