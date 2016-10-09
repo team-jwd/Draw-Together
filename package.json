@@ -11,7 +11,7 @@
     "test": "mocha -w */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js --watch-extensions jsx",
     "bundle-client:watch": "./node_modules/webpack/bin/webpack.js --watch",
     "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js",
-    "postinstall": "./node_modules/webpack/bin/webpack.js"
+    "postinstall": "webpack"
   },
   "repository": {
     "type": "git",
@@ -42,7 +42,6 @@
     "redux": "^3.6.0",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
-    "webpack": "^1.13.2",
     "webrtc-adapter": "^2.0.4"
   },
   "devDependencies": {
