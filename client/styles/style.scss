@@ -1,0 +1,230 @@
+$font-stack: "Avant Garde",Avantgarde,"Century Gothic",CenturyGothic,AppleGothic,sans-serif;
+$background: #FFFEEB;
+$submit: #70D95D;
+$dark-submit: #145F2E;
+$light-blue: #54D0FF;
+$dark-blue: #2573a7;
+$gray: #292929;
+$light-gray: #ECF0F1;
+
+@import 'reset';
+
+* {
+  box-sizing: border-box;
+}
+
+body, input, button, textarea {
+  font-family: $font-stack;
+}
+
+body {
+  background-color: $background;
+  color: $gray;
+}
+
+#navigation-container {
+  #hamburger-button {
+    #hamburger-div {
+      background: transparent;
+    }
+  }
+}
+
+.login-view {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  
+  #banner {
+    width: 100%;
+    text-align: center;
+    h1 {
+      margin-top: 5vw;
+      font-size: 10vw;
+      font-weight: 100;
+    }
+    h2 {
+      margin: 1vw auto 0;
+      font-size: 2vw;
+      font-weight: 100;
+      width: 80vw;
+    }
+  }
+
+  #user-interface {
+    width: 100%;
+    font-size: 3em;
+    text-align: center;
+    margin-top: 3vw;
+    #ui-buttons {
+      display: flex;
+      button {
+        font-size: 1.5vw;
+        width: 30vw;
+        height: 4vw;
+        outline: 0;
+        background-color: $dark-blue;
+        border: 1px solid $gray;
+        box-shadow: 0 0 4px $gray;
+        margin: 0 auto;
+      }
+    }
+    
+    .login-form {
+      background-color: $dark-blue;
+      width: 50vw;
+      margin: 3vw auto;
+      height: 10.3vw;
+      border: 1px solid $gray;
+      box-shadow: 0 0 4px $gray;
+      input, button {
+        text-align: center;
+        outline: 0;
+        background-color: $light-gray;
+        border: 1px solid $gray;
+        box-shadow: 0 0 1px $gray;
+        font-size: 1.4vw;
+        display: inline-block;
+        margin: 2% auto 0;
+        width: 30vw;
+        height: 2vw;
+      }
+      button {
+        background-color: $submit;
+      }
+    }
+
+    .signup-form {
+      background-color: $dark-blue;
+      width: 50vw;
+      margin: 3vw auto;
+      height: 16vw;
+      border: 1px solid $gray;
+      box-shadow: 0 0 4px $gray;
+      input, button {
+        text-align: center;
+        outline: 0;
+        background-color: $light-gray;
+        border: 1px solid $gray;
+        box-shadow: 0 0 1px $gray;
+        font-size: 1.4vw;
+        display: inline-block;
+        margin: 2% auto 0;
+        width: 30vw;
+        height: 2vw;
+      }
+      button {
+        background-color: $submit;
+      }
+    }
+  }
+}
+
+
+.room-view {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  #room-banner {
+    width: 100%;
+    height: 10vh;
+    text-align: center;
+    border-bottom: 1px solid $gray;
+    h1 {
+      padding-top: 2.5vh;
+      font-size: 2.5vw;
+    }
+    h2 {
+      font-size: 1vw;
+    }
+  }
+  #room {
+    display: flex;
+    #canvas-container {
+      border-right: 1px solid $gray;
+      height: 90vh;
+      width: 60vw;
+      #canvas {
+        overflow: scroll;
+        width: 60vw;
+        height: 85vh;
+        border: 1px solid $gray;
+        border-top: none;
+        border-left: none;
+        canvas {
+          cursor: crosshair;
+          background-color: white;
+        }
+      }
+      #canvas-controls {
+        width: 60vw;
+        margin: 0 auto;
+        text-align: center;
+        input, p, select {
+          display: inline-block;
+        }
+      }
+    }
+    #chat-video {
+      #chat-container {
+        width: 40vw;
+        height: 30vh;
+        #chat-window {
+          height: 25vh;
+          overflow: auto;
+          overflow-x: normal;
+          width: 40vw;
+          border-bottom: none;
+          .message {
+            p {
+              word-wrap: break-word;
+            }
+          }
+        }
+        #chat-form {
+          border-top: 1px solid $gray;
+          height: 5vh;
+          input {
+            width: 35vw;
+            height: 5vh;
+            border: none;
+            outline: 0;
+            border-bottom: 1px solid $gray;
+          }
+          button {
+            padding: 0;
+            width: 5vw;
+            height: 5vh;
+            border: none;
+            outline: 0;
+            border-left: 1px solid $gray;
+            border-bottom: 1px solid $gray;
+            background-color: $dark-blue;
+          }
+        }
+      }
+      video {
+        width: 40vw;
+        height: 60vh;
+        background-color: black;
+      }
+    }
+  }
+}
+
+
+
+
+.landing-view {
+  width: 100%;
+  height: 100%;
+  //background-color: tomato;
+}
