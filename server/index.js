@@ -1,5 +1,5 @@
-//const https = require('https');
-const http = require('http');
+const https = require('https');
+// const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
@@ -8,11 +8,12 @@ const mongoose = require('mongoose');
 const { createSignalingChannel } = require('./signaling.js');
 
 
-//const config = require('./config/config.js');
+const config = require('./config/config.js');
 
 const PORT = process.env.PORT || 8080;
 
 const userController = require('./controllers/user-controller');
+const roomController = require('./controllers/room-controller');
 
 const app = express();
 console.log("database location:", process.env.DATABASE_LOCATION);
@@ -27,13 +28,14 @@ db.once('open', () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// const options = {
-//   key: fs.readFileSync(path.join(`${__dirname}/config/server.key`), 'utf-8'),
-//   cert: fs.readFileSync(path.join(`${__dirname}/config/server.crt`), 'utf-8'),
-//   passphrase: 'boardroom',
-// };
+const options = {
+  key: fs.readFileSync(path.join(`${__dirname}/config/server.key`), 'utf-8'),
+  cert: fs.readFileSync(path.join(`${__dirname}/config/server.crt`), 'utf-8'),
+  passphrase: 'boardroom',
+};
 
-const server = http.createServer(app);
+const server = https.createServer(options, app);
+// const server = http.createServer(app);
 
 const io = require('socket.io')(server);
 
@@ -62,6 +64,20 @@ app.post('/login',
   }
 );
 
+app.post('/create',
+  roomController.createRoom,
+  (req, res) => {
+    res.send(req.locals);
+  }
+);
+
+app.post('/join',
+  roomController.verifyRoom,
+  (req, res) => {
+    res.send(req.locals);
+  }
+);
+
 
 io.on('connection', (socket) => {
   console.log('a user connected');
@@ -80,3 +96,4 @@ app.use(express.static(path.join(`${__dirname}/..`)));
 app.get('/', (req, res) => {
   res.sendFile(path.join(`${__dirname}/../index.html`));
 });
+
