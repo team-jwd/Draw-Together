@@ -27,6 +27,8 @@
     "bcrypt": "^0.8.7",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
+    "cold-brew": "^1.0.1",
+    "cold-brew-rtc": "^1.0.1",
     "crypto-js": "^3.1.6",
     "express": "^4.14.0",
     "immutable": "^3.8.1",

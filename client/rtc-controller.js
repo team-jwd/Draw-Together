@@ -1,3 +1,5 @@
+import { coldBrewRTC } from 'cold-brew-rtc';
+
 export default {
   isInitiator: false,
 
@@ -5,7 +7,7 @@ export default {
     console.log('creating connection');
     const servers = null; // Change later?
 
-    const peerConnection = new RTCPeerConnection(
+    const peerConnection = coldBrewRTC(
       servers,
       { optional: [{ RtcDataChannels: true }] }
     );
