@@ -37,12 +37,6 @@ class RoomView extends React.Component {
       lineWidth: '5',
       drawType: 'draw',
     };
-    let test = [];
-
-    for (let i = 0; i < 16000000; i++) {
-      test.push(Math.floor(Math.random() * 256));
-    }
-
   }
 
   componentWillMount() {
@@ -78,7 +72,15 @@ class RoomView extends React.Component {
     } else {
       this.listenForRTC(peerConnection, roomName);
     }
-    //document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
+
+    socket.emit('get messages', { roomName: this.props.roomName });
+    socket.on('messages', (messages) => {
+      messages = messages.messages;
+      for (let i = 0; i < messages.length; i += 1) {
+        const message = JSON.parse(messages[i]);
+        store.dispatch(actions.addMessage(message.username, message.message));
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -142,6 +144,10 @@ class RoomView extends React.Component {
     // Only strings can be sent through the data channel
     const msgObj = { type: 'message', username, message };
     document.getElementById('textSubmit').value = '';
+    socket.emit('save message', {
+      messageInfo: JSON.stringify(msgObj),
+      room: this.props.roomName,
+    });
     this.state.channel.send(JSON.stringify(msgObj));
   }
 
