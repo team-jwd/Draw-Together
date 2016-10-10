@@ -57,7 +57,7 @@ export default class LoginView extends React.Component {
         />
         <input
           id="password"
-          type="text"
+          type="password"
           placeholder="password"
           onChange={this.handlePasswordChange}
         />
