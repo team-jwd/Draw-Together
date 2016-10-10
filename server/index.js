@@ -8,14 +8,15 @@ const mongoose = require('mongoose');
 const { createSignalingChannel } = require('./signaling.js');
 
 
-const config = require('./config/config.js');
+//const config = require('./config/config.js');
 
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 const userController = require('./controllers/user-controller');
 
 const app = express();
-mongoose.connect(config.database);
+console.log("database location:", process.env.DATABASE_LOCATION);
+mongoose.connect(process.env.DATABASE_LOCATION);
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -70,8 +71,8 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('listening on 3k');
+server.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });
 
 app.use(express.static(path.join(`${__dirname}/..`)));
