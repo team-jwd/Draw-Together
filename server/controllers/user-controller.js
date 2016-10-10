@@ -46,6 +46,8 @@ const userController = {
             res.send('incorrect password');
           }
         });
+      } else {
+        res.send('Username or Password is incorrect.');
       }
     });
   },

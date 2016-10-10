@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import jwtDecode from 'jwt-decode';
+import Axios from 'axios';
 import CreateRoomButton from './CreateRoomButton.jsx';
-import CreateRoomForm from './CreateRoomForm.jsx';
+import EnterRoomForm from './EnterRoomForm.jsx';
 import JoinRoomButton from './JoinRoomButton.jsx';
-import JoinRoomForm from './JoinRoomForm.jsx';
 import NavigationContainer from '../Navigation/NavigationContainer.jsx';
 
 import socket from '../../socket';
@@ -13,6 +13,22 @@ import actions from './../../actions.js';
 
 
 export default class LandingView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      joinRoomFormVisible: false,
+      createRoomFormVisible: false,
+      createRoomPassword: '',
+      createRoomName: '',
+      joinRoomPassword: '',
+      joinRoomName: '',
+    };
+    this.showForm = this.showForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleJoinRoomSubmit = this.handleJoinRoomSubmit.bind(this);
+    this.handleCreateRoomSubmit = this.handleCreateRoomSubmit.bind(this);
+  }
+
   componentWillMount() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -30,39 +46,55 @@ export default class LandingView extends Component {
     }
   }
 
-  onClick() {
-    this.state = { test: false };
-  }
-
-  joinRoom() {
-    const roomName = prompt('Enter Room Name:');
-
-    socket.emit('join_room', roomName, (response) => {
-      if (response === 'full') {
-        alert('Room full, please try again');
-      } else if (response === 'empty') {
-        alert('This room does not exist');
-      } else {
-        if (response === 2) RTC.isInitiator = true;
-        store.dispatch(actions.joinRoom(roomName));
-        this.props.history.push('/room');
-      }
+  handleJoinRoomSubmit() {
+    Axios.post('/join', {
+      roomName: this.state.joinRoomName,
+      password: this.state.joinRoomPassword,
+    }).then((response) => {
+      const roomName = response.data.room.roomName;
+      socket.emit('join_room', roomName, (res) => {
+        if (res === 'full') {
+          console.log('room full');
+        } else {
+          if (res === 2) RTC.isInitiator = true;
+          store.dispatch(actions.joinRoom(roomName));
+          this.props.history.push('/room');
+        }
+      });
+    }).catch((err) => {
+      if (err) throw err;
     });
   }
 
-  createRoom() {
-    const roomName = prompt('Enter Room Name:');
-
-    socket.emit('create_room', roomName, (respond) => {
-      console.log(respond);
-      if (respond === 'exists') {
-        alert('Please choose another name');
-      } else {
-        store.dispatch(actions.joinRoom(roomName));
-        this.props.history.push('/room');
-        console.log('joining room:', roomName);
-      }
+  handleCreateRoomSubmit() {
+    Axios.post('/create', {
+      roomName: this.state.createRoomName,
+      password: this.state.createRoomPassword,
+    }).then((response) => {
+      const roomName = response.data.room.roomName;
+      socket.emit('create_room', roomName, (respond) => {
+        if (respond !== 'exists') {
+          store.dispatch(actions.joinRoom(roomName));
+          this.props.history.push('/room');
+        }
+      });
+    }).catch((err) => {
+      if (err) throw err;
     });
+  }
+
+  showForm(e) {
+    const joinRoomFormVisibility = e.target.value === 'create';
+    this.setState({
+      joinRoomFormVisible: !joinRoomFormVisibility,
+      createRoomFormVisible: joinRoomFormVisibility,
+    });
+  }
+
+  handleChange(e) {
+    const obj = {};
+    obj[e.target.name] = e.target.value;
+    this.setState(obj);
   }
 
   render() {
@@ -70,10 +102,26 @@ export default class LandingView extends Component {
       <div className="landing-view">
         <NavigationContainer history={this.props.history} />
         <p>Landing View Page</p>
-        <CreateRoomButton createRoom={this.createRoom.bind(this)} />
-        <CreateRoomForm />
-        <JoinRoomButton joinRoom={this.joinRoom.bind(this)} />
-        <JoinRoomForm />
+        <CreateRoomButton
+          onClick={this.showForm}
+        />
+        <EnterRoomForm
+          type="Create"
+          display={this.state.createRoomFormVisible ? 'block' : 'none'}
+          handleRoomNameChange={this.handleChange}
+          handlePasswordChange={this.handleChange}
+          onSubmit={this.handleCreateRoomSubmit}
+        />
+        <JoinRoomButton
+          onClick={this.showForm}
+        />
+        <EnterRoomForm
+          type="Join"
+          display={this.state.joinRoomFormVisible ? 'block' : 'none'}
+          handleRoomNameChange={this.handleChange}
+          handlePasswordChange={this.handleChange}
+          onSubmit={this.handleJoinRoomSubmit}
+        />
       </div>
     );
   }

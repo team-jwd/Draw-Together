@@ -37,6 +37,12 @@ class RoomView extends React.Component {
       lineWidth: '5',
       drawType: 'draw',
     };
+    let test = [];
+
+    for (let i = 0; i < 16000000; i++) {
+      test.push(Math.floor(Math.random() * 256));
+    }
+
   }
 
   componentWillMount() {

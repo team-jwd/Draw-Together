@@ -33,12 +33,39 @@ export default class LoginView extends React.Component {
 
   render() {
     return (
-      <div className="signup-form" style={{ display: this.props.display }}>
-        <input id="firstName" type="text" placeholder="First name" onChange={this.handleFirstNameChange} />
-        <input id="lastName" type="text" placeholder="Last name" onChange={this.handleLastNameChange} />
-        <input id="username" type="text" placeholder="username" onChange={this.handleUsernameChange} />
-        <input id="password" type="text" placeholder="password" onChange={this.handlePasswordChange} />
-        <button onClick={() => this.props.onSubmit(this.state.username, this.state.password, this.state.firstName, this.state.lastName)}>Sign up!</button>
+      <div
+        className="signup-form"
+        style={{ display: this.props.display }}
+      >
+        <input
+          id="firstName"
+          type="text"
+          placeholder="First name"
+          onChange={this.handleFirstNameChange}
+        />
+        <input
+          id="lastName"
+          type="text"
+          placeholder="Last name"
+          onChange={this.handleLastNameChange}
+        />
+        <input
+          id="username"
+          type="text"
+          placeholder="username"
+          onChange={this.handleUsernameChange}
+        />
+        <input
+          id="password"
+          type="text"
+          placeholder="password"
+          onChange={this.handlePasswordChange}
+        />
+        <button
+          onClick={() => this.props.onSubmit(this.state.username, this.state.password, this.state.firstName, this.state.lastName)}
+        >
+          Sign up!
+        </button>
       </div>
     );
   }

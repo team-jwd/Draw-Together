@@ -3,11 +3,7 @@ module.exports.createSignalingChannel = (io) => {
     socket.on('join_room', (roomName, respond) => {
       const numClients = io.sockets.adapter.rooms[roomName] ?
                          io.sockets.adapter.rooms[roomName].length : 0;
-      console.log('number of clients in room:', numClients);
-      if (numClients === 0) {
-        respond('empty');
-      } else if (numClients < 2) {
-        console.log('user has joined room:', roomName);
+      if (numClients < 2) {
         socket.join(roomName);
         respond(numClients + 1);
       } else {
@@ -17,8 +13,6 @@ module.exports.createSignalingChannel = (io) => {
     });
 
     socket.on('create_room', (roomName, respond) => {
-      console.log('attempting to create room:', roomName);
-
       if (io.sockets.adapter.rooms[roomName]) {
         respond('exists');
       } else {
@@ -34,12 +28,10 @@ module.exports.createSignalingChannel = (io) => {
     });
 
     socket.on('offer', (sessionDesc, roomName) => {
-      console.log('offer attempt at room:', roomName, 'and session:', sessionDesc);
       socket.broadcast.to(roomName).emit('offer', sessionDesc);
     });
 
     socket.on('answer', (sessionDesc, roomName) => {
-      console.log('answer attempt at room:', roomName, 'and session:', sessionDesc);
       socket.broadcast.to(roomName).emit('answer', sessionDesc);
     });
   });
