@@ -17,7 +17,7 @@ const roomController = require('./controllers/room-controller');
 
 const app = express();
 console.log("database location:", process.env.DATABASE_LOCATION);
-mongoose.connect(process.env.DATABASE_LOCATION);
+mongoose.connect('mongodb://localhost:80/test');
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -81,6 +81,17 @@ app.post('/join',
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+
+  socket.on('save message', (msgData) => {
+    roomController.saveMessage(msgData);
+  });
+
+  socket.on('get messages', (roomName) => {
+    roomController.getMessages(roomName)
+      .then((messages) => {
+        socket.emit('messages', { messages });
+      });
+  });
 
   socket.on('disconnect', () => {
     console.log('a user disconnected');

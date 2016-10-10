@@ -1,4 +1,5 @@
-const Room = require('./../models/room-model.js');
+const Promise = require('bluebird');
+const Room = Promise.promisifyAll(require('./../models/room-model.js'));
 const bcrypt = require('bcryptjs');
 
 const roomController = {
@@ -41,6 +42,24 @@ const roomController = {
         res.send('Roomname or Password is incorrect!');
       }
     });
+  },
+  saveMessage: (msgData) => {
+    const roomName = msgData.room;
+    const msgInfo = {};
+    const message = JSON.parse(msgData.messageInfo);
+    msgInfo.username = message.username;
+    msgInfo.message = message.message;
+    Room.findOneAndUpdate(
+      { roomName },
+      { $push: { messages: JSON.stringify(msgInfo) } },
+      (error) => {
+        if (error) throw error;
+      }
+    );
+  },
+  getMessages: (room) => {
+    const roomName = room.roomName;
+    return Room.findOne({ roomName }).then(found => found.messages);
   },
 };
 
