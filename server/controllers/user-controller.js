@@ -43,11 +43,11 @@ const userController = {
             };
             next();
           } else {
-            res.send('incorrect password');
+            res.status(400).send(false);
           }
         });
       } else {
-        res.send('Username or Password is incorrect.');
+        res.status(400).send(false);
       }
     });
   },

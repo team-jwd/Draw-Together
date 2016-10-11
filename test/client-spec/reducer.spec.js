@@ -83,7 +83,7 @@ describe('reducer', () => {
       actions.userJoin('stevied'),
       actions.userLeave('jimmy'),
     ]
-    console.log(actions.userLeave('jimmy'));
+
     expect(actionList.reduce(reducer, INITIAL_STATE)).to.equal(fromJS({
       userData: {
         username: 'stevied',
