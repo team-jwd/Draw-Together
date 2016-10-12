@@ -62,7 +62,12 @@ export default class LoginView extends React.Component {
           onChange={this.handlePasswordChange}
         />
         <button
-          onClick={() => this.props.onSubmit(this.state.username, this.state.password, this.state.firstName, this.state.lastName)}
+          onClick={() =>
+            this.props.onSubmit(
+              this.state.username,
+              this.state.password,
+              this.state.firstName,
+              this.state.lastName)}
         >
           Sign up!
         </button>

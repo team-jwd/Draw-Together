@@ -44,10 +44,10 @@ export default class LoginView extends React.Component {
         store.dispatch(actions.login(username, firstName, lastName));
         this.toLandingView();
       } else {
-        console.log('do something to tell them the username or password was wrong');
+        // tell the user their name or pass was wrong
       }
     }).catch((error) => {
-      console.log(error);
+      if (error) throw error;
     });
   }
 
@@ -64,7 +64,7 @@ export default class LoginView extends React.Component {
         store.dispatch(actions.login(username, firstName, lastName));
         this.toLandingView();
       } else {
-        console.log('tell the user that their username was already taken');
+        // tell the user something
       }
     }).catch((error) => {
       throw error;
@@ -84,7 +84,9 @@ export default class LoginView extends React.Component {
       <main className="login-view">
         <div id="banner">
           <h1 id="title">BoardRoom</h1>
-          <h2>We are a platform for interactive whiteboarding and video chat. It is as easy as making an account and making a room. Give it a try!</h2>
+          <h2>We are a platform for interactive
+          whiteboarding and video chat. It is as easy as
+          making an account and making a room. Give it a try!</h2>
         </div>
         <div id="user-interface">
           <div id="ui-buttons">

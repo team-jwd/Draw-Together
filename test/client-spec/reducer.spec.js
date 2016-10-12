@@ -11,15 +11,15 @@ describe('reducer', () => {
   it('should apply the actions to the state', () => {
     let actionList = [
       actions.login('stevied', 'steven', 'dada'),
-      actions.logout()
+      actions.logout(),
     ];
 
     const loggedIn = fromJS({
       userData: {
         username: 'stevied',
         firstName: 'steven',
-        lastName: 'dada'
-      }
+        lastName: 'dada',
+      },
     });
 
     expect(reducer(INITIAL_STATE, actions.login('stevied', 'steven', 'dada')))
@@ -83,7 +83,6 @@ describe('reducer', () => {
       actions.userJoin('stevied'),
       actions.userLeave('jimmy'),
     ]
-    console.log(actions.userLeave('jimmy'));
     expect(actionList.reduce(reducer, INITIAL_STATE)).to.equal(fromJS({
       userData: {
         username: 'stevied',
