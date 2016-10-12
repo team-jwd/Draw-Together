@@ -1,10 +1,14 @@
 const coldBrew = require('cold-brew');
 const { until, By } = require('selenium-webdriver');
 
+const app = require('../../../server/index');
+
+const roomName = Math.floor(Math.random() * 10000)
+
+
 const client1 = coldBrew.createClient();
 const client2 = coldBrew.createClient();
 
-const roomName = Math.floor(Math.random() * 10000)
 describe('Room view RTC connection', function() {
   it('should signal to the other client', function(done) {
     this.timeout(10000);
@@ -20,7 +24,7 @@ describe('Room view RTC connection', function() {
 });
 
 function toLandingView(client) {
-  client.get('http://localhost:8080');
+  client.get('http://localhost:7000');
   client.findElementByAttributes('.login-btn', {innerText: 'Login'}).click();
   client.findElementByAttributes('.login-form input', {placeholder: 'username'})
     .sendKeys('dking');

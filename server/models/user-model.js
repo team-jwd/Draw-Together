@@ -19,5 +19,13 @@ userSchema.pre('save', function encrypt(next) {
   });
 });
 
-const User = mongoose.model('User', userSchema);
+// For testing purposes, we need to not overwrite then
+// model if it has already been created.
+let User;
+try {
+  User = mongoose.model('users');
+} catch (error) {
+  // Model does not exist yet, create it.
+  User = mongoose.model('users', userSchema);
+}
 module.exports = User;

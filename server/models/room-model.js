@@ -19,5 +19,13 @@ roomSchema.pre('save', function encrypt(next) {
   });
 });
 
-const Room = mongoose.model('Room', roomSchema);
+// For testing purposes, we need to not overwrite then
+// model if it has already been created.
+let Room;
+try {
+  Room = mongoose.model('rooms')
+} catch (error) {
+  // Model does not exist yet, create it.
+  Room = mongoose.model('rooms', roomSchema);
+}
 module.exports = Room;
