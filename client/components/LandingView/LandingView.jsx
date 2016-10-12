@@ -54,7 +54,7 @@ export default class LandingView extends Component {
       const roomName = response.data.room.roomName;
       socket.emit('join_room', roomName, (res) => {
         if (res === 'full') {
-          console.log('room full');
+          // room is full
         } else {
           if (res === 2) RTC.isInitiator = true;
           store.dispatch(actions.joinRoom(roomName));

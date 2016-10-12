@@ -10,6 +10,3 @@ export default props =>
       height="40"
     />
   </button>;
-
-
-// style={{ 'background-image': url('/client/assets/hamburger.png') }}

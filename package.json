@@ -42,6 +42,8 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
+    "selenium-webdriver": "^3.0.0-beta-3",
+    "sinon": "^1.17.6",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
     "webrtc-adapter": "^2.0.4"

@@ -68,23 +68,24 @@ class RoomView extends React.Component {
 
     if (RTC.isInitiator) {
       this.initiateRTC(peerConnection, roomName);
-      console.log('You are the initiator!');
+      // You are the initiator
     } else {
       this.listenForRTC(peerConnection, roomName);
     }
 
     socket.emit('get messages', { roomName: this.props.roomName });
     socket.on('messages', (messages) => {
-      messages = messages.messages;
-      for (let i = 0; i < messages.length; i += 1) {
-        const message = JSON.parse(messages[i]);
+      const msgs = messages.messages;
+      for (let i = 0; i < msgs.length; i += 1) {
+        const message = JSON.parse(msgs[i]);
         store.dispatch(actions.addMessage(message.username, message.message));
       }
     });
   }
 
   componentDidUpdate() {
-    document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
+    const chat = document.getElementById('chat-window');
+    chat.scrollTop = chat.scrollHeight;
   }
 
   onChatMessageSubmit(text) {
@@ -103,7 +104,7 @@ class RoomView extends React.Component {
       };
 
       this.setState({ channel: sendChannel });
-      console.log('sendchannel state set');
+      // sendchannel state set
     };
 
     this.setState({ peerConnection });
@@ -111,19 +112,19 @@ class RoomView extends React.Component {
 
 
   listenForRTC(peerConnection, roomName) {
-    RTC.listenForRemoteOffer(socket, peerConnection, roomName);
-
-    peerConnection.ondatachannel = (event) => {
+    const thisPC = peerConnection;
+    RTC.listenForRemoteOffer(socket, thisPC, roomName);
+    thisPC.ondatachannel = (event) => {
       const dataChannel = event.channel;
       dataChannel.onmessage = (message) => {
         this.handleRTCData(message);
       };
 
       this.setState({ channel: dataChannel });
-      console.log('datachannel state set');
+      // datachannel state set
     };
 
-    this.setState({ peerConnection });
+    this.setState({ thisPC });
   }
 
   handleRTCData(message) {
@@ -133,9 +134,19 @@ class RoomView extends React.Component {
       store.dispatch(actions.addMessage(msgObj.username, msgObj.message));
     } else if (msgObj.type === 'canvas') {
       if (msgObj.drawType === 'erase') {
-        this.erase(msgObj.prevX, msgObj.prevY, msgObj.x, msgObj.y, msgObj.lineWidth);
+        this.erase(
+          msgObj.prevX,
+          msgObj.prevY,
+          msgObj.x,
+          msgObj.y,
+          msgObj.lineWidth);
       } else {
-        this.drawOnCanvas(msgObj.prevX, msgObj.prevY, msgObj.x, msgObj.y, msgObj.strokeStyle, msgObj.lineWidth);
+        this.drawOnCanvas(msgObj.prevX,
+          msgObj.prevY,
+          msgObj.x,
+          msgObj.y,
+          msgObj.strokeStyle,
+          msgObj.lineWidth);
       }
     }
   }
@@ -159,7 +170,6 @@ class RoomView extends React.Component {
     const rect = this.state.canvas.getBoundingClientRect();
     const prevX = e.pageX - rect.left - document.body.scrollLeft;
     const prevY = e.pageY - rect.top - document.body.scrollTop;
-    const ctx = this.state.ctx;
 
     const drawState = {
       type: 'canvas',
@@ -175,9 +185,20 @@ class RoomView extends React.Component {
     if (this.state.channel) this.sendDrawData(drawState);
 
     if (this.props.drawType === 'erase') {
-      this.erase(prevX, prevY, prevX, prevY, this.state.lineWidth);
+      this.erase(
+        prevX,
+        prevY,
+        prevX,
+        prevY,
+        this.state.lineWidth);
     } else {
-      this.drawOnCanvas(prevX, prevY, prevX, prevY, this.state.strokeStyle, this.state.lineWidth);
+      this.drawOnCanvas(
+        prevX,
+        prevY,
+        prevX,
+        prevY,
+        this.state.strokeStyle,
+        this.state.lineWidth);
     }
     this.setState({
       rect,

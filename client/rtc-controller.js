@@ -4,7 +4,7 @@ export default {
   isInitiator: false,
 
   createConnection(socket, roomName) {
-    console.log('creating connection');
+    // creating connection
     const servers = null; // Change later?
 
     const peerConnection = coldBrewRTC(
@@ -14,7 +14,7 @@ export default {
 
     peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
-        console.log('local ice candidate discovered, event.candidate:', event.candidate);
+        // local ice candidate discovered
         socket.emit('remote_candidate', {
           roomName,
           candidate: JSON.stringify(event.candidate),
@@ -35,7 +35,7 @@ export default {
    */
   acceptRemoteICECandidates(socket, peerConnection) {
     socket.on('remote_candidate', (candidate) => {
-      console.log('received remote ice candidate:', candidate);
+      // received remote ice candidate
       const candidateObj = JSON.parse(candidate);
       peerConnection.addIceCandidate(candidateObj);
     });
@@ -45,7 +45,7 @@ export default {
     return new Promise((resolve, reject) => {
       peerConnection.createOffer(
         (sessionDescription) => {
-          console.log('created offer with sessionDesc', sessionDescription);
+          // created offer with sessionDesc
           peerConnection.setLocalDescription(sessionDescription);
           socket.emit('offer', sessionDescription, roomName);
           resolve(sessionDescription);
@@ -54,7 +54,7 @@ export default {
       });
 
       socket.on('answer', (sessionDescription) => {
-        console.log('received answer of:', sessionDescription);
+        // received answer
         this.acceptRemoteAnswer(sessionDescription, peerConnection);
       });
     });
@@ -62,7 +62,7 @@ export default {
 
   listenForRemoteOffer(socket, peerConnection, roomName) {
     socket.on('offer', (sessionDescription) => {
-      console.log('received remote offer');
+      // received remote offer
       peerConnection.setRemoteDescription(sessionDescription);
       this.createAnswer(socket, peerConnection, roomName);
     });
@@ -72,7 +72,7 @@ export default {
     return new Promise((resolve, reject) => {
       peerConnection.createAnswer(
         (sessionDescription) => {
-          console.log('created answer');
+          // created answer
           peerConnection.setLocalDescription(sessionDescription);
           socket.emit('answer', sessionDescription, roomName);
           resolve(sessionDescription);
@@ -93,10 +93,10 @@ export default {
       );
       // Do we need sendchannel.onopen
       // and sendChannel.onclose handlers
-      console.log('created data channel');
+      // created data channel
       return sendChannel;
     } catch (e) {
-      console.log('Failed to create data channel', e);
+      // Failed to create data channel
       return null;
     }
   },
