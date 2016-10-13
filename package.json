@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
-    "test": "NODE_ENV=test mocha -w */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js --watch-extensions jsx",
+    "test": "NODE_ENV=test mocha */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js",
     "bundle-client:watch": "./node_modules/webpack/bin/webpack.js --watch",
     "start-server": "DATABASE_LOCATION=mongodb://localhost:80/test ./node_modules/nodemon/bin/nodemon.js ./server/index.js"
   },

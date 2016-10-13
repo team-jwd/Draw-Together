@@ -2,7 +2,7 @@ const request = require('supertest');
 const expect = require('chai').expect;
 
 const { app } = require('../../server/index');
-const User = require('../../server/models/user-model')
+const User = require('../../server/models/user-model');
 
 describe('Server routes', () => {
   describe('GET /', () => {
@@ -10,7 +10,7 @@ describe('Server routes', () => {
       request(app)
         .get('/')
         .expect('Content-Type', /html/)
-        .expect(200, done)
+        .expect(200, done);
     });
   });
 
@@ -26,7 +26,7 @@ describe('Server routes', () => {
         password: 'helloworld',
         firstName: 'Daniel',
         lastName: 'King',
-      }
+      };
 
       request(app)
         .post('/signup')
@@ -36,7 +36,7 @@ describe('Server routes', () => {
         .end((err, response) => {
           if (err) done(err);
 
-          const { username, firstName, lastName } = response.body.user
+          const { username, firstName, lastName } = response.body.user;
           expect(username).to.equal('dking');
           expect(firstName).to.equal('Daniel');
           expect(lastName).to.equal('King');
@@ -50,13 +50,13 @@ describe('Server routes', () => {
         password: 'helloworld',
         firstName: 'Daniel',
         lastName: 'King',
-      }
-      User.create(user)
-        .then((userRecord) => {
-          request(app)
-            .post('/signup')
-            .expect('user already exists', done);
-        });
+      };
+
+      User.create(user).then(() => {
+        request(app)
+          .post('/signup')
+          .expect('user already exists', done);
+      });
     });
   });
 
@@ -71,8 +71,8 @@ describe('Server routes', () => {
         username: 'dking',
         password: 'helloworld',
         firstName: 'Daniel',
-        lastName: 'King'
-      }
+        lastName: 'King',
+      };
 
       User.create(userdata).then((user) => {
         request(app)
@@ -97,13 +97,14 @@ describe('Server routes', () => {
         username: 'dking',
         password: 'helloworld',
         firstName: 'Daniel',
-        lastName: 'King'
-      }
+        lastName: 'King',
+      };
+
       request(app)
         .post('/login')
         .send(userdata)
         .expect(400, done);
-    })
+    });
 
     it('should send an error if the user exists but enters the wrong password', (done) => {
       const userdata = {
@@ -113,7 +114,7 @@ describe('Server routes', () => {
         lastName: 'King'
       }
 
-      User.create(userdata).then((userRecord) => {
+      User.create(userdata).then(() => {
         request(app)
           .post('/login')
           .send({
