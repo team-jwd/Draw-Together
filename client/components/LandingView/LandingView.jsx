@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import jwtDecode from 'jwt-decode';
 import Axios from 'axios';
-import CreateRoomButton from './CreateRoomButton.jsx';
+import ShowFormButton from './ShowFormButton.jsx';
 import EnterRoomForm from './EnterRoomForm.jsx';
-import JoinRoomButton from './JoinRoomButton.jsx';
 import NavigationContainer from '../Navigation/NavigationContainer.jsx';
 
 import socket from '../../socket';
@@ -102,7 +101,8 @@ export default class LandingView extends Component {
       <div className="landing-view">
         <NavigationContainer history={this.props.history} />
         <p>Landing View Page</p>
-        <CreateRoomButton
+        <ShowFormButton
+          type="Create"
           onClick={this.showForm}
         />
         <EnterRoomForm
@@ -112,8 +112,9 @@ export default class LandingView extends Component {
           handlePasswordChange={this.handleChange}
           onSubmit={this.handleCreateRoomSubmit}
         />
-        <JoinRoomButton
+        <ShowFormButton
           onClick={this.showForm}
+          type="Join"
         />
         <EnterRoomForm
           type="Join"
