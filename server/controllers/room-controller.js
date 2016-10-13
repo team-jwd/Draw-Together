@@ -59,7 +59,24 @@ const roomController = {
   },
   getMessages: (room) => {
     const roomName = room.roomName;
-    return Room.findOne({ roomName }).then(found => found.messages);
+    return Room.findOne({ roomName })
+      .then(found => found.messages);
+  },
+  saveCanvas: (blob) => {
+    const roomName = blob.roomName;
+    const blobToSave = blob.blob;
+    Room.findOneAndUpdate(
+      { roomName },
+      { $set: { canvas: blobToSave } },
+      (error) => {
+        if (error) throw error;
+      }
+    );
+  },
+  getCanvas: (room) => {
+    const roomName = room.roomName;
+    return Room.findOne({ roomName })
+      .then(found => found.canvas);
   },
 };
 

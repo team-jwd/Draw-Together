@@ -5,8 +5,8 @@ export default props =>
     <button
       type="text"
       onClick={props.onClick}
-      value="join"
+      value={props.type.toLowerCase()}
     >
-      Join a room
+      {`${props.type}`} a Room
     </button>
   </div>;

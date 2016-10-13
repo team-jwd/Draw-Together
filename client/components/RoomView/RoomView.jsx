@@ -53,11 +53,25 @@ class RoomView extends React.Component {
 
 
   componentDidMount() {
+
     const canvas = document.getElementById('canvass');
     const ctx = canvas.getContext('2d');
     this.setState({
       canvas,
       ctx,
+    });
+
+    socket.emit('get canvas', { roomName: this.props.roomName });
+    socket.on('send canvas', (data) => {
+      const blob = data.canvas;
+      if (blob) {
+        const newBlob = new Blob([blob], { type: 'image/png' });
+        const image = new Image();
+        image.addEventListener('load', () => {
+          this.state.ctx.drawImage(image, 0, 0, 2000, 2000);
+        });
+        image.src = URL.createObjectURL(newBlob);
+      }
     });
 
     // RTC stuff
@@ -262,8 +276,9 @@ class RoomView extends React.Component {
   }
 
   endDraw() {
-    // const data = this.state.ctx.getImageData(0, 0, this.state.canvas.width, this.state.canvas.height);
-    // console.log(data);
+    this.state.canvas.toBlob((blob) => {
+      socket.emit('save canvas', { blob, roomName: this.props.roomName });
+    });
     this.setState({
       mouseDown: false,
     });
@@ -293,7 +308,7 @@ class RoomView extends React.Component {
         <NavigationContainer history={this.props.history} />
         <div id="room-banner">
           <h1>Boardroom</h1>
-          <h2>You are in room {store.getState().get('room').get('name') }</h2>
+          <h2>You are in room {store.getState().get('room').get('name')}</h2>
         </div>
         <div id="room">
 
@@ -309,13 +324,13 @@ class RoomView extends React.Component {
             strokeChanged={this.strokeChanged}
             widthChanged={this.widthChanged}
             drawTypeChanged={this.drawTypeChanged}
-          />
+            />
 
           <div id="chat-video">
             <ChatContainer
               messages={this.props.messages}
               onChatMessageSubmit={this.onChatMessageSubmit}
-            />
+              />
             <VideoContainer />
           </div>
         </div>
