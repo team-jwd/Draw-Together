@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema({
   roomName: { type: String, required: true, unique: true },
   password: String,
   messages: [],
-  canvas: '',
+  canvas: Buffer,
 });
 
 roomSchema.pre('save', function encrypt(next) {
@@ -23,7 +23,7 @@ roomSchema.pre('save', function encrypt(next) {
 // model if it has already been created.
 let Room;
 try {
-  Room = mongoose.model('rooms')
+  Room = mongoose.model('rooms');
 } catch (error) {
   // Model does not exist yet, create it.
   Room = mongoose.model('rooms', roomSchema);

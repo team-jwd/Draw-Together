@@ -109,6 +109,18 @@ io.on('connection', (socket) => {
       });
   });
 
+  socket.on('save canvas', (blob) => {
+    // fs.writeFileSync(path.join(__dirname, 'tempo/test'), blob.toString('64'));
+    roomController.saveCanvas(blob);
+  });
+
+  socket.on('get canvas', (roomName) => {
+    roomController.getCanvas(roomName)
+      .then((canvas) => {
+        socket.emit('send canvas', { canvas });
+      });
+  });
+
   socket.on('disconnect', () => {
   });
 });
