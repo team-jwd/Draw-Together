@@ -18,76 +18,43 @@ describe('Room view RTC connection', function() {
     toLandingView(client2);
     joinRoom(client2);
 
-    client1.waitUntilRTCEvents('signalingstatechange')
-      .then(eventOccurred => {if (eventOccurred) done()})
+    client1.waitUntilRTCEvents('signalingstatechange').then((occurred) => {
+      if (occurred) done();
+    });
+  });
+
+  after((done) => {
+    client1.quit();
+    client2.quit().then(done);
   });
 });
 
 function toLandingView(client) {
   client.get('http://localhost:7000');
-  client.findElementByAttributes('.login-btn', {innerText: 'Login'}).click();
-  client.findElementByAttributes('.login-form input', {placeholder: 'username'})
-    .sendKeys('dking');
-  client.findElementByAttributes('.login-form input', {placeholder: 'password'})
-    .sendKeys('helloworld');
-  client.findElementByAttributes('.login-form button').click();
+  client.do([
+    ['click', '.login-btn', {innerText: 'Login'}],
+    ['sendKeys', '.login-form input', { placeholder: 'username' }, 'dking'],
+    ['sendKeys', '.login-form input', { placeholder: 'password' }, 'helloworld'],
+    ['click', '.login-form button'],
+  ]);
 }
 
 function createRoom(client) {
-  client.wait(until.elementLocated({className: 'landing-view'}));
-  client.findElementByAttributes('div button', {innerText: 'Create Room'}).click();
-  client.findElementByAttributes('input', {name: 'createRoomName'})
-    .sendKeys(roomName);
-  client.findElementByAttributes('input', {name: 'createRoomPassword'})
-    .sendKeys('password')
-  client.findElementByAttributes('#create-form button').click();
+  client.wait(until.elementLocated({ className: 'landing-view' }));
+  client.do([
+    ['click', 'div button', { innerText: 'Create Room' }],
+    ['sendKeys', 'input', { name: 'createRoomName' }, roomName],
+    ['sendKeys', 'input', { name: 'createRoomPassword' }, 'password'],
+    ['click', '#create-form button'],
+  ]);
 }
 
 function joinRoom(client) {
-  client.wait(until.elementLocated({className: 'landing-view'}));
-  client.findElementByAttributes('button', {innerText: 'Join a room'}).click();
-  client.findElementByAttributes('input', {name: 'joinRoomName'})
-    .sendKeys(roomName);
-  client.findElementByAttributes('input', {name: 'joinRoomPassword'})
-    .sendKeys('password')
-  client.findElementByAttributes('#join-form button').click();
+  client.wait(until.elementLocated({ className: 'landing-view' }));
+  client.do([
+    ['click', 'button', { innerText: 'Join a room' }],
+    ['sendKeys', 'input', { name: 'joinRoomName' }, roomName],
+    ['sendKeys', 'input', { name: 'joinRoomPassword' }, 'password'],
+    ['click', '#join-form button'],
+  ]);
 }
-
-
-
-// describe('RTC connection', () => {
-//   it('should connect when both clients visit the page', function(done) {
-//     this.timeout(5000);
-//     toRoomView(client1);
-//     toRoomView(client2);
-//
-//     client1.wait(client1.untilRTCEvents(['signalingstatechange']), 3000)
-//       .then(done);
-//   });
-// });
-//
-// function toRoomView(browser) {
-//   browser.get('http://localhost:8080')
-//
-//   findElementByAttributes(browser, 'button.login-btn', {innerText: 'Login'})
-//     .click()
-//   findElementByAttributes(browser,
-//     '.login-form input',
-//     {placeholder: 'username'}
-//   )
-//     .sendKeys('dking');
-//   findElementByAttributes(browser,
-//     '.login-form input',
-//     {placeholder: 'password'}
-//   )
-//     .sendKeys('helloworld');
-//   findElementByAttributes(browser, '.login-form button', {innerText: 'Log in!'})
-//     .click();
-//
-//   browser.wait(until.elementLocated({id: 'joinRoomForm'}));
-//
-//   browser
-//     .findElement({id: 'joinRoomForm'})
-//     .findElement({tagName: 'button'})
-//     .click();
-// }
