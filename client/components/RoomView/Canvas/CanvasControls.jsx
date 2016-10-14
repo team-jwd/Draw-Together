@@ -4,6 +4,7 @@ export default props =>
   <div id="canvas-controls">
     <button
       type="text"
+      onClick={props.clearCanvas}
     >Clear Board</button>
     <p>Choose a color</p>
     <input
