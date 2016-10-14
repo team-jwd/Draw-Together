@@ -71,8 +71,8 @@ export default {
           socket.emit('offer', sessionDescription, roomName);
           resolve(sessionDescription);
         }, (error) => {
-          reject(error);
-        });
+        reject(error);
+      });
 
       socket.on('answer', (sessionDescription) => {
         // received answer

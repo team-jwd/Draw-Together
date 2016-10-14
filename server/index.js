@@ -1,10 +1,11 @@
-// const https = require('https');
-const http = require('http');
+const https = require('https');
+// const http = require('http');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { createSignalingChannel } = require('./signaling.js');
+const fs = require('fs');
 
 let PORT = process.env.PORT || 8080;
 
@@ -42,14 +43,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// const options = {
-//   key: fs.readFileSync(path.join(`${__dirname}/config/server.key`), 'utf-8'),
-//   cert: fs.readFileSync(path.join(`${__dirname}/config/server.crt`), 'utf-8'),
-//   passphrase: 'boardroom',
-// };
+const options = {
+  key: fs.readFileSync(path.join(`${__dirname}/config/server.key`), 'utf-8'),
+  cert: fs.readFileSync(path.join(`${__dirname}/config/server.crt`), 'utf-8'),
+  passphrase: 'boardroom',
+};
 
-// const server = https.createServer(options, app);
-const server = http.createServer(app);
+const server = https.createServer(options, app);
+// const server = http.createServer(app);
 
 const io = require('socket.io')(server);
 
