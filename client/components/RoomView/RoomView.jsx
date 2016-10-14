@@ -54,7 +54,6 @@ class RoomView extends React.Component {
 
 
   componentDidMount() {
-
     const canvas = document.getElementById('canvass');
     const ctx = canvas.getContext('2d');
     this.setState({
@@ -286,7 +285,6 @@ class RoomView extends React.Component {
   }
 
   clearCanvas() {
-    console.log('hi!');
     this.state.ctx.clearRect(
       0,
       0,
@@ -342,7 +340,7 @@ class RoomView extends React.Component {
             <ChatContainer
               messages={this.props.messages}
               onChatMessageSubmit={this.onChatMessageSubmit}
-              />
+            />
             <VideoContainer />
           </div>
         </div>
