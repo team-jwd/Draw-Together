@@ -23,6 +23,7 @@ class RoomView extends React.Component {
     this.strokeChanged = this.strokeChanged.bind(this);
     this.widthChanged = this.widthChanged.bind(this);
     this.drawTypeChanged = this.drawTypeChanged.bind(this);
+    this.clearCanvas = this.clearCanvas.bind(this);
 
     this.state = {
       peerConnection: null,
@@ -284,6 +285,16 @@ class RoomView extends React.Component {
     });
   }
 
+  clearCanvas() {
+    console.log('hi!');
+    this.state.ctx.clearRect(
+      0,
+      0,
+      this.state.canvas.width,
+      this.state.canvas.height
+    );
+  }
+
   strokeChanged(e) {
     this.setState({
       strokeStyle: e.target.value,
@@ -324,7 +335,8 @@ class RoomView extends React.Component {
             strokeChanged={this.strokeChanged}
             widthChanged={this.widthChanged}
             drawTypeChanged={this.drawTypeChanged}
-            />
+            clearCanvas={this.clearCanvas}
+          />
 
           <div id="chat-video">
             <ChatContainer
