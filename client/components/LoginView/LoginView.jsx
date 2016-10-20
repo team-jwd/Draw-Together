@@ -9,6 +9,7 @@ import LoginButton from './LoginButton.jsx';
 import SignupButton from './SignupButton.jsx';
 import LoginForm from './LoginForm.jsx';
 import SignupForm from './SignupForm.jsx';
+import Card from './card.jsx';
 
 export default class LoginView extends React.Component {
   constructor(props) {
@@ -73,42 +74,83 @@ export default class LoginView extends React.Component {
 
   showForm(formName) {
     const loginFormVisibility = formName === 'login';
+    document.getElementById('lgn-view').style.opacity = '0.3';
     this.setState({
       loginFormVisible: loginFormVisibility,
       signupFormVisible: !loginFormVisibility,
     });
+    let form = document.getElementById(`${formName}-form`).style;
+    form.position = 'fixed';
+    form.zIndex = 1000;
+    form.background = 'pink';
+    form.height = '500px';
+    form.width = '500px';
+    form.margin = 'auto';
+    form.top = '0';
+    form.bottom = '0';
+    form.left = '0';
+    form.right = '0';
   }
 
   render() {
     return (
-      <main className="login-view">
-        <div id="banner">
-          <h1 id="title">BoardRoom</h1>
-          <h2>We are a platform for interactive
-          whiteboarding and video chat. It is as easy as
-          making an account and making a room. Give it a try!</h2>
+      <div>
+        <div id="ui-forms">
+          <SignupForm
+            onSubmit={this.handleSignupFormSubmit.bind(this)}
+            display={this.state.signupFormVisible ? 'block' : 'none'}
+          />
+          <LoginForm
+            onSubmit={this.handleLoginFormSubmit.bind(this)}
+            display={this.state.loginFormVisible ? 'block' : 'none'}
+          />
         </div>
-        <div id="user-interface">
-          <div id="ui-buttons">
-            <SignupButton
-              onClick={this.showForm.bind(this, 'signup')}
+        <main className="login-view" id="lgn-view">
+          <div id="banner">
+            <img src="./client/assets/Logo.png" alt="Draw Together" />
+            <div>
+              <h1>Drawing from a Distance</h1>
+              <br />
+              <p>DrawTogether is the simplest way for you and
+              anyone else to draw together no matter
+              where you are in the world</p>
+            </div>
+          </div>
+          <div id="cards">
+            <Card
+              title="Interactive Whiteboarding"
+              img="./client/assets/Pencil.png"
+              alt="Pencil"
+              description="Work in real time on a digital whiteboard with your friends and coworkers"
             />
-            <LoginButton
-              onClick={this.showForm.bind(this, 'login')}
+            <Card
+              title="Live Video Chat"
+              img="./client/assets/Camera.png"
+              alt="Camera"
+              description="Have a live video chat with your collaborator to give your design process a personal touch"
+            />
+            <Card
+              title="Simple Sign In"
+              img="./client/assets/Person.png"
+              alt="Person"
+              description="Don’t let a long sign up process slow you down. Sign up in seconds and get drawing"
             />
           </div>
-          <div id="ui-forms">
-            <SignupForm
-              onSubmit={this.handleSignupFormSubmit.bind(this)}
-              display={this.state.signupFormVisible ? 'block' : 'none'}
-            />
-            <LoginForm
-              onSubmit={this.handleLoginFormSubmit.bind(this)}
-              display={this.state.loginFormVisible ? 'block' : 'none'}
-            />
+          <div>
+            <h2 id="bottom-text">Sign up or Log in to get started</h2>
           </div>
-        </div>
-      </main>
+          <div id="user-interface">
+            <div id="ui-buttons">
+              <SignupButton
+                onClick={this.showForm.bind(this, 'signup')}
+              />
+              <LoginButton
+                onClick={this.showForm.bind(this, 'login')}
+              />
+            </div>
+          </div>
+        </main>
+      </div>
     );
   }
 }

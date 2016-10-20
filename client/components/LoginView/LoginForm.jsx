@@ -23,7 +23,7 @@ export default class LoginForm extends React.Component {
     const state = this.state;
     return (
       <div
-        className="login-form"
+        id="login-form"
         style={{ display: this.props.display }}
       >
         <input
