@@ -34,7 +34,7 @@ export default class LoginView extends React.Component {
   render() {
     return (
       <div
-        className="signup-form"
+        id="signup-form"
         style={{ display: this.props.display }}
       >
         <input

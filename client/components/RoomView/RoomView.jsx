@@ -62,7 +62,6 @@ class RoomView extends React.Component {
       canvas,
       ctx,
     });
-
     socket.emit('get canvas', { roomName: this.props.roomName });
     socket.on('send canvas', (data) => {
       const blob = data.canvas;
