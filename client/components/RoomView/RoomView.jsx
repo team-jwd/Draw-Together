@@ -89,12 +89,19 @@ class RoomView extends React.Component {
 
     RTC.acceptRemoteICECandidates(socket, peerConnection);
 
-    if (RTC.isInitiator) {
-      this.initiateRTC(peerConnection, roomName);
-      // You are the initiator
-    } else {
-      this.listenForRTC(peerConnection, roomName);
-    }
+    navigator.getUserMedia({ video: true }, (localStream) => {
+      peerConnection.addStream(localStream);
+      this.setState({ localVideoStream: localStream });
+
+      if (RTC.isInitiator) {
+        this.initiateRTC(peerConnection, roomName);
+        // You are the initiator
+      } else {
+        this.listenForRTC(peerConnection, roomName);
+      }
+    }, (err) => {
+      throw err;
+    });
 
     socket.emit('get messages', { roomName: this.props.roomName });
     socket.on('messages', (messages) => {
@@ -119,13 +126,8 @@ class RoomView extends React.Component {
 
   initiateRTC(peerConnection, roomName) {
     const sendChannel = RTC.createDataChannel(peerConnection);
-    navigator.getUserMedia({ video: true }, (localStream) => {
-      peerConnection.addStream(localStream);
-      this.setState({ localVideoStream: localStream });
-      RTC.createOffer(socket, peerConnection, roomName);
-    }, function(err) {
-      throw err;
-    });
+
+    RTC.createOffer(socket, peerConnection, roomName);
 
     sendChannel.onopen = () => {
       sendChannel.onmessage = (message) => {
