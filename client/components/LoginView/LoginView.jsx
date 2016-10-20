@@ -18,6 +18,7 @@ export default class LoginView extends React.Component {
       signupFormVisible: false,
       loginFormVisible: false,
     };
+    this.removeForm = this.removeForm.bind(this);
   }
 
   componentWillMount() {
@@ -79,10 +80,9 @@ export default class LoginView extends React.Component {
       loginFormVisible: loginFormVisibility,
       signupFormVisible: !loginFormVisibility,
     });
-    let form = document.getElementById(`${formName}-form`).style;
+    const form = document.getElementById(`${formName}-form`).style;
     form.position = 'fixed';
     form.zIndex = 1000;
-    form.background = 'pink';
     form.height = '500px';
     form.width = '500px';
     form.margin = 'auto';
@@ -90,6 +90,20 @@ export default class LoginView extends React.Component {
     form.bottom = '0';
     form.left = '0';
     form.right = '0';
+    form.opacity = '1';
+    if (formName === 'login') {
+      form.height = '300px';
+    }
+  }
+
+  removeForm() {
+    if (this.state.loginFormVisible || this.state.signupFormVisible) {
+      this.setState({
+        loginFormVisible: false,
+        signupFormVisible: false,
+      });
+      document.getElementById('lgn-view').style.opacity = '1';
+    }
   }
 
   render() {
@@ -105,7 +119,7 @@ export default class LoginView extends React.Component {
             display={this.state.loginFormVisible ? 'block' : 'none'}
           />
         </div>
-        <main className="login-view" id="lgn-view">
+        <main className="login-view" id="lgn-view" onClick={this.removeForm}>
           <div id="banner">
             <img src="./client/assets/Logo.png" alt="Draw Together" />
             <div>
