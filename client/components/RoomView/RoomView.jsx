@@ -27,6 +27,8 @@ class RoomView extends React.Component {
 
     this.state = {
       peerConnection: null,
+      localVideoStream: null,
+      remoteVideoStream: null,
       channel: null,
       canvas: null,
       ctx: null,
@@ -78,6 +80,13 @@ class RoomView extends React.Component {
     const roomName = this.props.roomName;
 
     const peerConnection = RTC.createConnection(socket, roomName);
+
+    // Update remoteVideoStream when video is received
+    peerConnection.onaddstream = (event) => {
+      console.log('onaddstream event invoked');
+      this.setState({ remoteVideoStream: event.stream });
+    };
+
     RTC.acceptRemoteICECandidates(socket, peerConnection);
 
     if (RTC.isInitiator) {
@@ -110,7 +119,13 @@ class RoomView extends React.Component {
 
   initiateRTC(peerConnection, roomName) {
     const sendChannel = RTC.createDataChannel(peerConnection);
-    RTC.createOffer(socket, peerConnection, roomName);
+    navigator.getUserMedia({ video: true }, (localStream) => {
+      peerConnection.addStream(localStream);
+      this.setState({ localVideoStream: localStream });
+      RTC.createOffer(socket, peerConnection, roomName);
+    }, function(err) {
+      throw err;
+    });
 
     sendChannel.onopen = () => {
       sendChannel.onmessage = (message) => {
@@ -341,7 +356,10 @@ class RoomView extends React.Component {
               messages={this.props.messages}
               onChatMessageSubmit={this.onChatMessageSubmit}
             />
-            <VideoContainer />
+            <VideoContainer
+              localVideoStream={this.state.localVideoStream}
+              remoteVideoStream={this.state.remoteVideoStream}
+            />
           </div>
         </div>
       </main>
