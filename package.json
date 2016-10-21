@@ -10,7 +10,8 @@
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
     "test": "NODE_ENV=test mocha */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js",
     "bundle-client:watch": "./node_modules/webpack/bin/webpack.js --watch",
-    "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js"
+    "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js",
+    "cold-brew-demo": "NODE_ENV=test mocha cold-brew-demo.js"
   },
   "repository": {
     "type": "git",
@@ -72,6 +73,7 @@
     "md5": "^2.2.1",
     "mocha": "^3.1.0",
     "mongoose": "^4.6.2",
+    "ngrok": "^2.2.3",
     "nodemon": "^1.11.0",
     "react-addons-test-utils": "^15.3.2",
     "sass-loader": "^4.0.2",
