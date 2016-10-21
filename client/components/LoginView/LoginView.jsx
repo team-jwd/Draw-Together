@@ -130,7 +130,7 @@ export default class LoginView extends React.Component {
               where you are in the world</p>
             </div>
           </div>
-          <div id="cards">
+          <div className="cards">
             <Card
               title="Interactive Whiteboarding"
               img="./client/assets/Pencil.png"
