@@ -83,8 +83,8 @@ export default class LoginView extends React.Component {
     const form = document.getElementById(`${formName}-form`).style;
     form.position = 'fixed';
     form.zIndex = 1000;
-    form.height = '500px';
-    form.width = '500px';
+    form.height = '375px';
+    form.width = '375px';
     form.margin = 'auto';
     form.top = '0';
     form.bottom = '0';
@@ -92,7 +92,7 @@ export default class LoginView extends React.Component {
     form.right = '0';
     form.opacity = '1';
     if (formName === 'login') {
-      form.height = '300px';
+      form.height = '225px';
     }
   }
 
