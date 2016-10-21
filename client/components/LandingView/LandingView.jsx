@@ -96,8 +96,8 @@ class LandingView extends Component {
     const form = document.getElementById(`${e.target.value}-form`).style;
     form.position = 'fixed';
     form.zIndex = 1000;
-    form.height = '300px';
-    form.width = '500px';
+    form.height = '225px';
+    form.width = '375px';
     form.margin = 'auto';
     form.top = '0';
     form.bottom = '0';
