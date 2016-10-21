@@ -32,7 +32,7 @@ describe('Room view RTC connection', function() {
 function toLandingView(client) {
   client.get('http://localhost:7000');
   client.do([
-    ['click', '.login-btn', {innerText: 'Login'}],
+    ['click', '.login-btn', { innerText: 'Login' }],
     ['sendKeys', '.login-form input', { placeholder: 'username' }, 'dking'],
     ['sendKeys', '.login-form input', { placeholder: 'password' }, 'helloworld'],
     ['click', '.login-form button'],
@@ -42,7 +42,7 @@ function toLandingView(client) {
 function createRoom(client) {
   client.wait(until.elementLocated({ className: 'landing-view' }));
   client.do([
-    ['click', 'div button', { innerText: 'Create Room' }],
+    ['click', 'div button', { innerText: 'Create a Room' }],
     ['sendKeys', 'input', { name: 'createRoomName' }, roomName],
     ['sendKeys', 'input', { name: 'createRoomPassword' }, 'password'],
     ['click', '#create-form button'],
@@ -52,7 +52,7 @@ function createRoom(client) {
 function joinRoom(client) {
   client.wait(until.elementLocated({ className: 'landing-view' }));
   client.do([
-    ['click', 'button', { innerText: 'Join a room' }],
+    ['click', 'button', { innerText: 'Join a Room' }],
     ['sendKeys', 'input', { name: 'joinRoomName' }, roomName],
     ['sendKeys', 'input', { name: 'joinRoomPassword' }, 'password'],
     ['click', '#join-form button'],

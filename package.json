@@ -10,7 +10,7 @@
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
     "test": "NODE_ENV=test mocha */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js",
     "bundle-client:watch": "./node_modules/webpack/bin/webpack.js --watch",
-    "start-server": "DATABASE_LOCATION=mongodb://localhost:80/test ./node_modules/nodemon/bin/nodemon.js ./server/index.js"
+    "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "cold-brew": "^1.0.1",
-    "cold-brew-rtc": "^1.0.1",
+    "cold-brew-rtc": "^1.0.5",
     "crypto-js": "^3.1.6",
     "express": "^4.14.0",
     "immutable": "^3.8.1",

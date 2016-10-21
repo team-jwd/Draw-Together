@@ -8,11 +8,13 @@ export default class LoginView extends React.Component {
       password: '',
       firstName: '',
       lastName: '',
+      email: '',
     };
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
   }
 
   handleFirstNameChange(e) {
@@ -31,34 +33,45 @@ export default class LoginView extends React.Component {
     this.setState({ password: e.target.value });
   }
 
+  handleEmailChange(e) {
+    this.setState({ email: e.target.value });
+  }
+
   render() {
     return (
       <div
-        className="signup-form"
+        id="signup-form"
         style={{ display: this.props.display }}
       >
+        <h4>Create your account by filling out the form below</h4>
+        <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
           type="text"
-          placeholder="First name"
           onChange={this.handleFirstNameChange}
         />
+        <label htmlFor="lastName">Last Name</label>
         <input
           id="lastName"
           type="text"
-          placeholder="Last name"
           onChange={this.handleLastNameChange}
         />
+        <label htmlFor="username">Username</label>
         <input
           id="username"
           type="text"
-          placeholder="username"
           onChange={this.handleUsernameChange}
         />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          onChange={this.handleEmailChange}
+        />
+        <label htmlFor="password">Password</label>
         <input
           id="password"
           type="password"
-          placeholder="password"
           onChange={this.handlePasswordChange}
         />
         <button
@@ -67,9 +80,10 @@ export default class LoginView extends React.Component {
               this.state.username,
               this.state.password,
               this.state.firstName,
-              this.state.lastName)}
+              this.state.lastName,
+              this.state.email)}
         >
-          Sign up!
+          Sign Up!
         </button>
       </div>
     );

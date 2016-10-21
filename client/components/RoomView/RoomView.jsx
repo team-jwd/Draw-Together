@@ -27,6 +27,8 @@ class RoomView extends React.Component {
 
     this.state = {
       peerConnection: null,
+      localVideoStream: null,
+      remoteVideoStream: null,
       channel: null,
       canvas: null,
       ctx: null,
@@ -60,7 +62,6 @@ class RoomView extends React.Component {
       canvas,
       ctx,
     });
-
     socket.emit('get canvas', { roomName: this.props.roomName });
     socket.on('send canvas', (data) => {
       const blob = data.canvas;
@@ -78,14 +79,28 @@ class RoomView extends React.Component {
     const roomName = this.props.roomName;
 
     const peerConnection = RTC.createConnection(socket, roomName);
+
+    // Update remoteVideoStream when video is received
+    peerConnection.onaddstream = (event) => {
+      console.log('onaddstream event invoked');
+      this.setState({ remoteVideoStream: event.stream });
+    };
+
     RTC.acceptRemoteICECandidates(socket, peerConnection);
 
-    if (RTC.isInitiator) {
-      this.initiateRTC(peerConnection, roomName);
-      // You are the initiator
-    } else {
-      this.listenForRTC(peerConnection, roomName);
-    }
+    navigator.getUserMedia({ video: true }, (localStream) => {
+      peerConnection.addStream(localStream);
+      this.setState({ localVideoStream: localStream });
+
+      if (RTC.isInitiator) {
+        this.initiateRTC(peerConnection, roomName);
+        // You are the initiator
+      } else {
+        this.listenForRTC(peerConnection, roomName);
+      }
+    }, (err) => {
+      throw err;
+    });
 
     socket.emit('get messages', { roomName: this.props.roomName });
     socket.on('messages', (messages) => {
@@ -110,6 +125,7 @@ class RoomView extends React.Component {
 
   initiateRTC(peerConnection, roomName) {
     const sendChannel = RTC.createDataChannel(peerConnection);
+
     RTC.createOffer(socket, peerConnection, roomName);
 
     sendChannel.onopen = () => {
@@ -341,7 +357,10 @@ class RoomView extends React.Component {
               messages={this.props.messages}
               onChatMessageSubmit={this.onChatMessageSubmit}
             />
-            <VideoContainer />
+            <VideoContainer
+              localVideoStream={this.state.localVideoStream}
+              remoteVideoStream={this.state.remoteVideoStream}
+            />
           </div>
         </div>
       </main>
