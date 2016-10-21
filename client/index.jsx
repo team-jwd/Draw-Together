@@ -10,7 +10,7 @@ import LandingView from './components/LandingView/LandingView.jsx';
 import RoomView from './components/RoomView/RoomView.jsx';
 
 /* eslint no-unused-vars: 0 */
-import scss from './styles/style.scss';
+import './styles/style.scss';
 
 
 ReactDOM.render(
