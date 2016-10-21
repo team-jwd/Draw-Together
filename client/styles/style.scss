@@ -262,6 +262,12 @@ button {
     border: 1px solid #A2A6A7;
     border-radius: 4px;
     height: 300px;
+    h4 {
+      margin-top: 80px;
+    }
+    p {
+      margin-top: 30px;
+    }
   }
   .card:hover, #profile-card:hover {
     border-color: #4A90E2;
