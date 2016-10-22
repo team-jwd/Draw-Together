@@ -10,20 +10,20 @@ const roomName = Math.floor(Math.random() * 10000);
 const client1 = coldBrew.createClient();
 const client2 = coldBrew.createClient();
 
-let ADDRESS;
+let ADDRESS = 'http://localhost:7000';
 
-describe('ColdBrew demo', function () {
-  before(function (done) {
-    this.timeout(10000);
+describe('ColdBrew', function () {
+  // before(function (done) {
+  //   this.timeout(10000);
 
-    ngrok.connect(7000, (err, url) => {
-      ADDRESS = url;
-      done();
-    });
-  });
+  //   // ngrok.connect(7000, (err, url) => {
+  //   //   ADDRESS = url;
+  //   //   done();
+  //   // });
+  // });
 
   it('should be able to navigate to the chat room', function (done) {
-    this.timeout(10000);
+    this.timeout(30000);
     
     client1.get(ADDRESS);
     client2.get(ADDRESS);
@@ -33,6 +33,39 @@ describe('ColdBrew demo', function () {
 
     toLandingView(client2);
     joinRoom(client2);
+
+    client2.wait(until.elementLocated(By.css('canvas')))
+      .then((located) => { if (located) done() });
+  });
+
+  it('should be able to detect ICE candidate signaling', function (done) {
+    this.timeout(30000);
+
+    client1.waitUntilRTCEvents('icecandidate');
+    client2.waitUntilRTCEvents('icecandidate')
+      .then((occurred) => { if (occurred) done() });
+  });
+
+  it('should be able to detect SDP signaling', function (done) {
+    this.timeout(30000);
+
+    client1.waitUntilRTCEvents('signalingstatechange');
+    client2.waitUntilRTCEvents('signalingstatechange')
+      .then((occurred) => { if (occurred) done() });
+  });
+
+  it('should detect that a datachannel was established', function (done) {
+    this.timeout(30000);
+
+    client1.waitUntilRTCEvents('datachannel')
+      .then((occurred) => { if (occurred) done() });
+  });
+
+  it('should detect that a video stream was established', function (done) {
+    this.timeout(30000);
+
+    client1.waitUntilRTCEvents('addstream')
+      .then((occurred) => { if (occurred) done() });
   });
 });
 
