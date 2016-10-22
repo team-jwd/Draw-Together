@@ -82,7 +82,6 @@ class RoomView extends React.Component {
 
     // Update remoteVideoStream when video is received
     peerConnection.onaddstream = (event) => {
-      console.log('onaddstream event invoked');
       this.setState({ remoteVideoStream: event.stream });
     };
 
@@ -91,10 +90,8 @@ class RoomView extends React.Component {
     navigator.getUserMedia({ video: true }, (localStream) => {
       peerConnection.addStream(localStream);
       this.setState({ localVideoStream: localStream });
-
       if (RTC.isInitiator) {
         this.initiateRTC(peerConnection, roomName);
-        // You are the initiator
       } else {
         this.listenForRTC(peerConnection, roomName);
       }
@@ -134,7 +131,6 @@ class RoomView extends React.Component {
       };
 
       this.setState({ channel: sendChannel });
-      // sendchannel state set
     };
 
     this.setState({ peerConnection });
@@ -151,7 +147,6 @@ class RoomView extends React.Component {
       };
 
       this.setState({ channel: dataChannel });
-      // datachannel state set
     };
 
     this.setState({ thisPC });
@@ -182,7 +177,6 @@ class RoomView extends React.Component {
   }
 
   sendMessage(username, message) {
-    // Only strings can be sent through the data channel
     const msgObj = { type: 'message', username, message };
     document.getElementById('textSubmit').value = '';
     socket.emit('save message', {
@@ -310,6 +304,7 @@ class RoomView extends React.Component {
   }
 
   strokeChanged(e) {
+    document.getElementById('color').style.background = e.target.value;
     this.setState({
       strokeStyle: e.target.value,
     });
@@ -331,36 +326,35 @@ class RoomView extends React.Component {
     return (
       <main className="room-view">
         <NavigationContainer history={this.props.history} />
-        <div id="room-banner">
-          <h1>Boardroom</h1>
-          <h2>You are in room {store.getState().get('room').get('name')}</h2>
-        </div>
-        <div id="room">
+        <div id="room-view">
+          <div id="room-banner">
+            <h2>You are in room {store.getState().get('room').get('name')}</h2>
+          </div>
+          <div id="room">
+            <CanvasContainer
+              strokeStyle={this.state.strokeStyle}
+              lineWidth={this.state.lineWidth}
+              drawType={this.state.drawType}
 
-          <CanvasContainer
-            strokeStyle={this.state.strokeStyle}
-            lineWidth={this.state.lineWidth}
-            drawType={this.state.drawType}
+              startDraw={this.startDraw}
+              newDraw={this.newDraw}
+              endDraw={this.endDraw}
 
-            startDraw={this.startDraw}
-            newDraw={this.newDraw}
-            endDraw={this.endDraw}
-
-            strokeChanged={this.strokeChanged}
-            widthChanged={this.widthChanged}
-            drawTypeChanged={this.drawTypeChanged}
-            clearCanvas={this.clearCanvas}
-          />
-
-          <div id="chat-video">
-            <ChatContainer
-              messages={this.props.messages}
-              onChatMessageSubmit={this.onChatMessageSubmit}
+              strokeChanged={this.strokeChanged}
+              widthChanged={this.widthChanged}
+              drawTypeChanged={this.drawTypeChanged}
+              clearCanvas={this.clearCanvas}
             />
-            <VideoContainer
-              localVideoStream={this.state.localVideoStream}
-              remoteVideoStream={this.state.remoteVideoStream}
-            />
+            <div id="chat-video">
+              <VideoContainer
+                localVideoStream={this.state.localVideoStream}
+                remoteVideoStream={this.state.remoteVideoStream}
+              />
+              <ChatContainer
+                messages={this.props.messages}
+                onChatMessageSubmit={this.onChatMessageSubmit}
+              />
+            </div>
           </div>
         </div>
       </main>
