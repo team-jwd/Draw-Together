@@ -11,6 +11,8 @@ import LoginForm from './LoginForm.jsx';
 import SignupForm from './SignupForm.jsx';
 import Card from './card.jsx';
 
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+
 export default class LoginView extends React.Component {
   constructor(props) {
     super(props);
@@ -135,19 +137,22 @@ export default class LoginView extends React.Component {
               title="Interactive Whiteboarding"
               img="./client/assets/Pencil.png"
               alt="Pencil"
-              description="Work in real time on a digital whiteboard with your friends and coworkers"
+              description={`Work in real time on a digital whiteboard with your 
+                friends and coworkers`}
             />
             <Card
               title="Live Video Chat"
               img="./client/assets/Camera.png"
               alt="Camera"
-              description="Have a live video chat with your collaborator to give your design process a personal touch"
+              description={`Have a live video chat with your collaborator to 
+                give your design process a personal touch`}
             />
             <Card
               title="Simple Sign In"
               img="./client/assets/Person.png"
               alt="Person"
-              description="Don’t let a long sign up process slow you down. Sign up in seconds and get drawing"
+              description={`Don’t let a long sign up process slow you down. 
+                Sign up in seconds and get drawing`}
             />
           </div>
           <div>

@@ -13,6 +13,7 @@ import RTC from '../../rtc-controller';
 import store from './../../store.js';
 import actions from './../../actions.js';
 
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
 
 class LandingView extends Component {
   constructor(props) {
@@ -154,10 +155,10 @@ class LandingView extends Component {
               />
               <Card
                 title="Start a Live Video Chat"
-                description={`It only takes a second to set up a new room for you 
-                and your collaborator. Click on the create room button, give a
-                user name and optional password and its made. Then just send the
-                 room info to your partner`}
+                description={`It only takes a second to set up a new room for 
+                you and your collaborator. Click on the create room button, 
+                give a user name and optional password and its made. Then 
+                just send the room info to your partner`}
               />
               <Card
                 title="Join a Previously Created Room"
@@ -168,7 +169,9 @@ class LandingView extends Component {
               />
             </div>
             <div>
-              <h2 id="button-descriptions">Join or Create a Room to Collaborate on Your Project</h2>
+              <h2 id="button-descriptions">{`Join or Create a Room to 
+                Collaborate on Your Project`}
+              </h2>
             </div>
             <div className="buttons">
               <ShowFormButton
