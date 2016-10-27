@@ -1,4 +1,4 @@
-import { coldBrewRTC } from 'cold-brew-rtc';
+import { coldBrewRTC } from 'cold-brew/rtc';
 
 export default {
   isInitiator: false,
