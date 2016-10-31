@@ -1,4 +1,5 @@
 const coldBrew = require('cold-brew');
+
 const { until, By, Key } = require('selenium-webdriver');
 
 const User = require('./server/models/user-model');
@@ -22,7 +23,9 @@ describe('app', function () {
     })
   })
 
-  it('should be able to establish an RTCPeerConnection', function (done) {
+  it('should be able to navigate both clients to the chatroom', function (done) {
+    this.timeout(30000);
+    
     client1.get(ADDRESS)
     client2.get(ADDRESS)
 
@@ -64,11 +67,62 @@ describe('app', function () {
       ['click', '#join-form button']
     ])
 
-    client1.waitUntilRTCEvents(['signalingstatechange', 'datachannel'])
-      .then((occurred) => {
-        if (occurred) {
-          done()
-        }
-      })  
+    client2.wait(until.elementLocated(By.css('canvas')))
+      .then(() => done())
   })
+
+  it('client2 should send an offer to client1', function (done) {
+    client2.waitUntilSendSignaling(['offer'])
+      .then(() => done());
+  })
+
+  it('client1 should receive offer', function (done) {
+    client1.waitUntilReceiveSignaling(['offer'])
+      .then(() => done())
+  })
+
+  it('client1 should send answer', function (done) {
+    client1.waitUntilSendSignaling(['answer'])
+      .then(() => done())
+  })
+
+  it('client2 should receive answer', function (done) {
+    client2.waitUntilReceiveSignaling(['answer'])
+      .then(() => done())
+  })
+
+  it('client1 should send and receive ICE candidates', function (done) {
+    client1.waitUntilSendSignaling(['remote_candidate'])
+    client1.waitUntilReceiveSignaling(['remote_candidate'])
+      .then(() => done())
+  })
+
+  it('client2 should send and receive ICE candidates', function (done) {
+    client2.waitUntilSendSignaling(['remote_candidate'])
+    client2.waitUntilReceiveSignaling(['remote_candidate'])
+      .then(() => done())
+  })
+
+  it('client1 RTCPeerConnection should be affected by signaling', function (done) {
+    client1.waitUntilRTCEvents(['signalingstatechange'])
+      .then(() => done())
+  })
+
+  it('client2 RTCPeerConnection should be affected by signaling', function (done) {
+    client2.waitUntilRTCEvents(['signalingstatechange'])
+      .then(() => done())
+  })
+
+  it('client1 should receive a datachannel opened by client2', function (done) {
+    client1.waitUntilRTCEvents(['datachannel'])
+      .then(() => done())
+  })
+
+  it('client1 should receive a video stream from client2', function (done) {
+    client1.waitUntilRTCEvents(['addstream'])
+      .then(() => done())
+  })
+
+  
 })
+
