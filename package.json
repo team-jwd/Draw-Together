@@ -11,7 +11,7 @@
     "test": "NODE_ENV=test mocha */helpers/* */*-spec/*.spec.js */*-spec/*-spec/*.spec.js",
     "bundle-client:watch": "./node_modules/webpack/bin/webpack.js --watch",
     "start-server": "./node_modules/nodemon/bin/nodemon.js ./server/index.js",
-    "cold-brew-demo": "NODE_ENV=test ./node_modules/mocha/bin/mocha --timeout 30000 ./cold-brew-demo.js"
+    "cold-brew-demo": "NODE_ENV=test ./node_modules/mocha/bin/mocha ./cold-brew-demo.js"
   },
   "repository": {
     "type": "git",
