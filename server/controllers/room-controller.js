@@ -13,7 +13,7 @@ const roomController = {
     });
     newRoom.save((error) => {
       if (error) {
-        res.send('room already exists');
+        res.send('Sorry, this room already exists.');
       } else {
         req.locals.room = {
           roomName: req.body.roomName,
@@ -35,7 +35,7 @@ const roomController = {
             };
             next();
           } else {
-            res.send('incorrect password');
+            res.send('Roomname or Password is incorrect!');
           }
         });
       } else {

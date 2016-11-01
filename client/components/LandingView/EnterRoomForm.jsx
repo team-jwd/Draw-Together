@@ -6,6 +6,7 @@ export default props =>
     style={{ display: props.display }}
   >
     <h4>{props.description}</h4>
+    <p style={{ display: props.errorDisplay }} className="error">{props.error}</p>
     <label htmlFor={`${props.type.toLowerCase()}RoomName`}>
       Room Name
     </label>

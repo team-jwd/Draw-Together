@@ -44,6 +44,7 @@ export default class LoginView extends React.Component {
         style={{ display: this.props.display }}
       >
         <h4>Create your account by filling out the form below</h4>
+        <p style={{ display: this.props.usernameAlreadyUsed ? 'block' : 'none' }} className="error">Sorry this username has already been taken</p>
         <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
