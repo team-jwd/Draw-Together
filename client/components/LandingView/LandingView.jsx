@@ -25,6 +25,8 @@ class LandingView extends Component {
       createRoomName: '',
       joinRoomPassword: '',
       joinRoomName: '',
+      joinErrorVisible: false,
+      createErrorVisible: false,
     };
     this.showForm = this.showForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -65,8 +67,8 @@ class LandingView extends Component {
           this.props.history.push('/room');
         }
       });
-    }).catch((err) => {
-      if (err) throw err;
+    }).catch(() => {
+      this.setState({ joinErrorVisible: true });
     });
   }
 
@@ -82,8 +84,8 @@ class LandingView extends Component {
           this.props.history.push('/room');
         }
       });
-    }).catch((err) => {
-      if (err) throw err;
+    }).catch(() => {
+      this.setState({ createErrorVisible: true });
     });
   }
 
@@ -118,6 +120,12 @@ class LandingView extends Component {
       this.setState({
         joinRoomFormVisible: false,
         createRoomFormVisible: false,
+        joinErrorVisible: false,
+        createErrorVisible: false,
+        createRoomPassword: '',
+        createRoomName: '',
+        joinRoomPassword: '',
+        joinRoomName: '',
       });
       document.getElementsByClassName('landing-view')[0].style.opacity = '1';
     }
@@ -134,6 +142,8 @@ class LandingView extends Component {
             handleRoomNameChange={this.handleChange}
             handlePasswordChange={this.handleChange}
             onSubmit={this.handleCreateRoomSubmit}
+            errorDisplay={this.state.createErrorVisible ? 'block' : 'none'}
+            error="This room name is already taken"
           />
           <EnterRoomForm
             type="Join"
@@ -142,6 +152,8 @@ class LandingView extends Component {
             handleRoomNameChange={this.handleChange}
             handlePasswordChange={this.handleChange}
             onSubmit={this.handleJoinRoomSubmit}
+            errorDisplay={this.state.joinErrorVisible ? 'block' : 'none'}
+            error="The room name or password is incorrect"
           />
         </div>
         <main className="landing-view" onClick={this.removeForm}>

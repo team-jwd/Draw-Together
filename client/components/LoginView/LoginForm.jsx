@@ -27,6 +27,7 @@ export default class LoginForm extends React.Component {
         style={{ display: this.props.display }}
       >
         <h4>Login using your email or password</h4>
+        <p style={{ display: this.props.usernameOrPasswordWrong ? 'block' : 'none' }} className="error">Sorry the username or password was incorrect</p>
         <label htmlFor="login-user">Username or Email</label>
         <input
           type="text"

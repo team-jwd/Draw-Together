@@ -19,6 +19,8 @@ export default class LoginView extends React.Component {
     this.state = {
       signupFormVisible: false,
       loginFormVisible: false,
+      usernameAlreadyUsedVisibile: false,
+      usernameOrPasswordWrongVisible: false,
     };
     this.removeForm = this.removeForm.bind(this);
   }
@@ -42,12 +44,13 @@ export default class LoginView extends React.Component {
       password,
     }).then((response) => {
       const token = response.data.token;
-      const { firstName, lastName } = response.data.user;
       if (token) {
+        const { firstName, lastName } = response.data.user;
         localStorage.setItem('token', token);
         store.dispatch(actions.login(username, firstName, lastName));
         this.toLandingView();
       } else {
+        this.setState({ usernameOrPasswordWrongVisible: true });
         // tell the user their name or pass was wrong
       }
     }).catch((error) => {
@@ -69,6 +72,7 @@ export default class LoginView extends React.Component {
         this.toLandingView();
       } else {
         // tell the user something
+        this.setState({ usernameAlreadyUsedVisibile: true });
       }
     }).catch((error) => {
       throw error;
@@ -103,6 +107,8 @@ export default class LoginView extends React.Component {
       this.setState({
         loginFormVisible: false,
         signupFormVisible: false,
+        usernameAlreadyUsedVisibile: false,
+        usernameOrPasswordWrongVisible: false,
       });
       document.getElementById('lgn-view').style.opacity = '1';
     }
@@ -115,10 +121,12 @@ export default class LoginView extends React.Component {
           <SignupForm
             onSubmit={this.handleSignupFormSubmit.bind(this)}
             display={this.state.signupFormVisible ? 'block' : 'none'}
+            usernameAlreadyUsed={this.state.usernameAlreadyUsedVisibile}
           />
           <LoginForm
             onSubmit={this.handleLoginFormSubmit.bind(this)}
             display={this.state.loginFormVisible ? 'block' : 'none'}
+            usernameOrPasswordWrong={this.state.usernameOrPasswordWrongVisible}
           />
         </div>
         <main className="login-view" id="lgn-view" onClick={this.removeForm}>

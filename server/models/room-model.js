@@ -8,6 +8,7 @@ const roomSchema = new mongoose.Schema({
   password: String,
   messages: [],
   canvas: Buffer,
+  createdAt: { type: Date, expires: 60 * 60 * 24 * 3, default: Date.now },
 });
 
 roomSchema.pre('save', function encrypt(next) {

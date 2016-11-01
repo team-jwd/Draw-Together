@@ -17,7 +17,7 @@ const userController = {
     });
     newUser.save((error) => {
       if (error) {
-        res.send('user already exists');
+        res.send('Username already taken signup');
       } else {
         req.locals.user = {
           username: req.body.username,
@@ -43,11 +43,11 @@ const userController = {
             };
             next();
           } else {
-            res.status(400).send(false);
+            res.send('Username or Password was incorrect login');
           }
         });
       } else {
-        res.status(400).send(false);
+        res.send('Username or Password was incorrect login');
       }
     });
   },
