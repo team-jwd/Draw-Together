@@ -12,6 +12,8 @@ describe('app', function () {
   let client1, client2;
 
   before(function (done) {
+    this.timeout(10000)
+    
     User.remove({}, function (err) {
       if (err) throw err;
       Room.remove({}, function (error) {
